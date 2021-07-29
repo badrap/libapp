@@ -1,0 +1,43 @@
+{
+  "name": "@badrap/libapp",
+  "version": "0.0.1",
+  "description": "TypeScript helpers for creating Badrap apps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badrap/libapp.git"
+  },
+  "main": "dist/index.js",
+  "exports": {
+    "./ui": "./dist/ui/index.js",
+    "./ui/jsx-runtime": "./dist/ui/jsx-runtime.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/*/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore --max-warnings 0 --ext=.js,.ts .",
+    "typecheck": "tsc --skipLibCheck --noEmit",
+    "build": "rm -rf ./dist && tsc",
+    "prepack": "npm run build"
+  },
+  "author": "Joachim Viide <jviide@iki.fi>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/badrap/libapp/issues"
+  },
+  "homepage": "https://github.com/badrap/libapp#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
+  }
+}
