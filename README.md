@@ -17,7 +17,7 @@ Modify your tsconfig.json file by adding in the following lines:
   "compilerOptions": {
     ...
     "jsx": "react-jsx",
-    "jsxImportSource": "@badrap/app/ui"
+    "jsxImportSource": "@badrap/libapp/ui"
   },
   ...
 }
