@@ -1,4 +1,4 @@
-# libapp
+# libapp [![tests](https://github.com/badrap/libapp/workflows/tests/badge.svg)](https://github.com/badrap/libapp/actions?query=workflow%3Atests)
 
 TypeScript helpers for creating Badrap apps.
 
