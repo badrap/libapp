@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 type Json = number | string | boolean | null | Json[] | { [K: string]: Json };
 type ClassList = string | Record<string, boolean> | ClassList[];
 
