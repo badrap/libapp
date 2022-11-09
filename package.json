@@ -8,6 +8,7 @@
   },
   "main": "dist/index.js",
   "exports": {
+    "./api": "./dist/api/index.js",
     "./ui": "./dist/ui/index.js",
     "./ui/jsx-runtime": "./dist/ui/jsx-runtime.js"
   },
@@ -32,6 +33,7 @@
   },
   "homepage": "https://github.com/badrap/libapp#readme",
   "devDependencies": {
+    "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.27.0",
@@ -39,5 +41,9 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@badrap/valita": "^0.1.5",
+    "undici": "^5.12.0"
   }
 }
