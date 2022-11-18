@@ -41,7 +41,9 @@ export type Event = Readonly<{
   props?: Record<string, unknown>;
 }>;
 
-export class API<InstallationState extends Record<string, unknown>> {
+export class API<
+  InstallationState extends Record<string, unknown> = Record<string, unknown>
+> {
   private readonly apiToken: string;
   private readonly baseUrl: URL;
   private readonly stateType: v.Type<InstallationState>;
@@ -49,9 +51,9 @@ export class API<InstallationState extends Record<string, unknown>> {
   constructor(
     apiUrl: string,
     apiToken: string,
-    stateType: v.Type<InstallationState>
+    stateType?: v.Type<InstallationState>
   ) {
-    this.stateType = stateType;
+    this.stateType = stateType ?? (v.record() as v.Type<InstallationState>);
     this.apiToken = apiToken;
     this.baseUrl = new URL(apiUrl);
     this.baseUrl.pathname = path.posix.join(this.baseUrl.pathname, "app/");
