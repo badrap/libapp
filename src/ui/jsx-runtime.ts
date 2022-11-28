@@ -60,6 +60,7 @@ namespace ui {
       };
       ["ui-button"]: {
         variant?: "default" | "primary" | "danger";
+        size?: "sm" | "md";
         disabled?: boolean;
         action?: Json;
         submit?: boolean;
@@ -67,13 +68,22 @@ namespace ui {
       };
       ["ui-upload-button"]: {
         name: string;
+        size?: "sm" | "md";
         action: Json;
         disabled?: boolean;
         multiple?: boolean;
         children?: UiNode;
       };
+      ["ui-download-button"]: {
+        variant?: "default" | "primary" | "danger";
+        size?: "sm" | "md";
+        disabled?: boolean;
+        context?: Json;
+        children?: UiNode;
+      };
       ["ui-copy-button"]: {
         variant?: "default" | "primary" | "danger";
+        size?: "sm" | "md";
         disabled?: boolean;
         value: string;
         children?: UiNode;
