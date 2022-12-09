@@ -78,6 +78,7 @@ namespace ui {
         variant?: "default" | "primary" | "danger";
         size?: "sm" | "md";
         disabled?: boolean;
+        filename?: string;
         context?: Json;
         children?: UiNode;
       };
