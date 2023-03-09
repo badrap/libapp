@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-type Json = number | string | boolean | null | Json[] | { [K: string]: Json | undefined };
+type Json =
+  | number
+  | string
+  | boolean
+  | null
+  | Json[]
+  | { [K: string]: Json | undefined };
 type ClassList = string | Record<string, boolean> | ClassList[];
 
 namespace ui {
