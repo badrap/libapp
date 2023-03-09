@@ -104,6 +104,11 @@ namespace ui {
         required?: boolean;
         placeholder?: string;
       };
+      ["ui-hidden-input"]: {
+        name: string;
+        value?: Json;
+        valid: boolean;
+      };
       ["ui-checkbox"]: {
         name?: string;
         label?: string;
