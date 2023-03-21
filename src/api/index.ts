@@ -146,13 +146,33 @@ export class API<
     );
   }
 
-  async getInstallations(): Promise<{ id: string; removed: boolean }[]> {
+  async getInstallations(): Promise<
+    {
+      id: string;
+      removed: boolean;
+      owner?: { type: "team"; name: string } | { type: "user"; email: string };
+    }[]
+  > {
     return this.request(new URL("installations", this.baseUrl), {
       method: "GET",
     })
       .then((r) => r.json())
       .then((r) =>
-        parse(r, v.array(v.object({ id: v.string(), removed: v.boolean() })))
+        parse(
+          r,
+          v.array(
+            v.object({
+              id: v.string(),
+              removed: v.boolean(),
+              owner: v
+                .union(
+                  v.object({ type: v.literal("team"), name: v.string() }),
+                  v.object({ type: v.literal("user"), email: v.string() })
+                )
+                .optional(),
+            })
+          )
+        )
       );
   }
 
