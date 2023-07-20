@@ -1,16 +1,11 @@
-import path from "node:path";
 import * as v from "@badrap/valita";
-import { fetch, RequestInit, Headers, Response } from "undici";
+import { HTTPError, APIBase } from "./base.js";
+import { Kv } from "./kv.js";
+
+export { HTTPError };
 
 function parse<T>(data: unknown, type: v.Type<T>): T {
   return type.parse(data, { mode: "strip" });
-}
-
-export class HTTPError extends Error {
-  constructor(readonly statusCode: number, readonly statusText: string) {
-    super(`HTTP status code ${statusCode} (${statusText})`);
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
 }
 
 export class UpdateFailed extends Error {
@@ -44,56 +39,45 @@ export type Event = Readonly<{
 export class API<
   InstallationState extends Record<string, unknown> = Record<string, unknown>
 > {
-  private readonly apiToken: string;
-  private readonly baseUrl: URL;
+  private readonly base: APIBase;
   private readonly stateType: v.Type<InstallationState>;
+  readonly experimentalKv: Kv;
 
   constructor(
     apiUrl: string,
     apiToken: string,
     stateType?: v.Type<InstallationState>
   ) {
+    this.base = new APIBase(apiUrl, apiToken);
     this.stateType = stateType ?? (v.record() as v.Type<InstallationState>);
-    this.apiToken = apiToken;
-    this.baseUrl = new URL(apiUrl);
-    this.baseUrl.pathname = path.posix.join(this.baseUrl.pathname, "app/");
+    this.experimentalKv = new Kv(this.base);
   }
 
-  private installationUrl(installationId: string, path?: string): URL {
+  private installationPath(installationId: string, path?: string): string {
     if (!installationId.match(/^[a-z0-9_-]{1,}$/i)) {
       throw new Error("invalid installation ID");
     }
-    const url = new URL(`installations/${installationId}`, this.baseUrl);
+    let pathname = `installations/${installationId}`;
     if (path) {
-      url.pathname += `/${path}`;
+      pathname += `/${path}`;
     }
-    url.pathname = url.pathname.replace(/\/+/g, "/");
-    return url;
-  }
-
-  private async request(url: URL, options: RequestInit): Promise<Response> {
-    const headers = new Headers(options.headers);
-    headers.set("Authorization", `Bearer ${this.apiToken}`);
-
-    const response = await fetch(url, { ...options, headers });
-    if (!response.ok) {
-      throw new HTTPError(response.status, response.statusText);
-    }
-    return response;
+    return pathname.replace(/\/+/g, "/");
   }
 
   async checkAuthToken(
     token: string
   ): Promise<{ installationId: string; sessionId: string; expiresAt: number }> {
-    const result = await this.request(new URL("token", this.baseUrl), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token,
-      }),
-    }).then((r) => r.json());
+    const result = await this.base
+      .request("/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token,
+        }),
+      })
+      .then((r) => r.json());
 
     const {
       installation_id: installationId,
@@ -112,16 +96,18 @@ export class API<
   }
 
   async seal(data: unknown, expiresIn: number): Promise<string> {
-    const result = await this.request(new URL("seal", this.baseUrl), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        expires_in: expiresIn,
-        data,
-      }),
-    }).then((r) => r.json());
+    const result = await this.base
+      .request("/seal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          expires_in: expiresIn,
+          data,
+        }),
+      })
+      .then((r) => r.json());
 
     return parse(
       result,
@@ -130,15 +116,17 @@ export class API<
   }
 
   async unseal(data: string): Promise<unknown> {
-    const result = await this.request(new URL("unseal", this.baseUrl), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data,
-      }),
-    }).then((r) => r.json());
+    const result = await this.base
+      .request("/unseal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data,
+        }),
+      })
+      .then((r) => r.json());
 
     return parse(
       result,
@@ -153,9 +141,8 @@ export class API<
       owner?: { type: "team"; name: string } | { type: "user"; email: string };
     }[]
   > {
-    return this.request(new URL("installations", this.baseUrl), {
-      method: "GET",
-    })
+    return this.base
+      .request("/installations", { method: "GET" })
       .then((r) => r.json())
       .then((r) =>
         parse(
@@ -184,17 +171,18 @@ export class API<
       clientState?: Record<string, unknown>;
     } = {}
   ): Promise<string> {
-    return this.request(this.installationUrl(installationId, "/callbacks"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        session_id: sessionId,
-        action: callback.action,
-        client_state: callback.clientState,
-      }),
-    })
+    return this.base
+      .request(this.installationPath(installationId, "/callbacks"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          action: callback.action,
+          client_state: callback.clientState,
+        }),
+      })
       .then((r) => r.json())
       .then((r) =>
         parse(
@@ -207,9 +195,10 @@ export class API<
   async getInstallation(
     installationId: string
   ): Promise<Installation<InstallationState>> {
-    return this.request(this.installationUrl(installationId), {
-      method: "GET",
-    })
+    return this.base
+      .request(this.installationPath(installationId), {
+        method: "GET",
+      })
       .then((r) => r.json())
       .then((r) =>
         parse(
@@ -234,10 +223,10 @@ export class API<
   ): Promise<Installation<InstallationState>> {
     const { maxRetries = Infinity } = options ?? {};
 
-    const url = this.installationUrl(installationId);
+    const path = this.installationPath(installationId);
 
     for (let i = 0; i <= maxRetries; i++) {
-      const response = await this.request(url, { method: "GET" });
+      const response = await this.base.request(path, { method: "GET" });
       const etag = response.headers.get("etag");
       const input = await response.json().then((r) =>
         parse(
@@ -259,7 +248,7 @@ export class API<
       }
 
       try {
-        await this.request(url, {
+        await this.base.request(path, {
           method: "PATCH",
           headers: {
             "If-Match": etag || "*",
@@ -280,17 +269,18 @@ export class API<
   }
 
   async removeInstallation(installationId: string): Promise<void> {
-    await this.request(this.installationUrl(installationId), {
-      method: "DELETE",
-    }).then((r) => r.arrayBuffer());
+    await this.base
+      .request(this.installationPath(installationId), { method: "DELETE" })
+      .then((r) => r.arrayBuffer());
   }
 
   async listOwnerAssets(
     installationId: string
   ): Promise<{ type: "ip" | "email" | "domain"; value: string }[]> {
-    return this.request(this.installationUrl(installationId, "/owner/assets"), {
-      method: "GET",
-    })
+    return this.base
+      .request(this.installationPath(installationId, "/owner/assets"), {
+        method: "GET",
+      })
       .then((r) => r.json())
       .then((r) =>
         parse(
@@ -318,7 +308,7 @@ export class API<
     }
   ): Promise<void> {
     try {
-      await this.request(new URL("feeds", this.baseUrl), {
+      await this.base.request("/feeds", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -334,21 +324,18 @@ export class API<
       if (!(err instanceof HTTPError) || err.statusCode !== 409) {
         throw err;
       }
-      await this.request(
-        new URL(`feeds/${encodeURIComponent(name)}`, this.baseUrl),
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "If-Match": "*",
-          },
-          body: JSON.stringify({
-            title: config?.title,
-            summary_template: config?.summaryTemplate,
-            details_template: config?.detailsTemplate,
-          }),
-        }
-      );
+      await this.base.request(`/feeds/${encodeURIComponent(name)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "If-Match": "*",
+        },
+        body: JSON.stringify({
+          title: config?.title,
+          summary_template: config?.summaryTemplate,
+          details_template: config?.detailsTemplate,
+        }),
+      });
     }
   }
 
@@ -357,8 +344,8 @@ export class API<
     feedName: string,
     events: Event[]
   ): Promise<void> {
-    await this.request(
-      this.installationUrl(
+    await this.base.request(
+      this.installationPath(
         installationId,
         `/feeds/${encodeURIComponent(feedName)}/events`
       ),

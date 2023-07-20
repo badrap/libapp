@@ -40,10 +40,10 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.4",
-    "typescript": "^4.9.5"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@badrap/valita": "^0.2.0",
-    "undici": "^5.20.0"
+    "@badrap/valita": "^0.2.1",
+    "undici": "^5.22.1"
   }
 }
