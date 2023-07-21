@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import type { APIBase } from "./base.js";
+import type { Client } from "./client.js";
 
 type KvKey = (number | string | boolean)[];
 
@@ -49,7 +49,7 @@ const CommitResponse = v.union(
 );
 
 export class Kv {
-  constructor(private readonly base: APIBase) {}
+  constructor(private readonly client: Client) {}
 
   async get(key: KvKey): Promise<KvEntryMaybe<unknown>> {
     const [result] = await this.getMany([key]);
@@ -60,16 +60,13 @@ export class Kv {
   }
 
   async getMany(keys: KvKey[]): Promise<KvEntryMaybe<unknown>[]> {
-    const response = await this.base
-      .request("/kv/get", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ keys }),
-      })
-      .then((r) => r.json())
-      .then((json) => GetManyResponse.parse(json));
+    const response = await this.client.request({
+      method: "POST",
+      path: ["kv", "get"],
+      json: { keys },
+      idempotent: true,
+      responseType: GetManyResponse,
+    });
     if (response.entries.length !== keys.length) {
       throw new Error("an unexpected number of result entries");
     }
@@ -84,20 +81,17 @@ export class Kv {
     let cursor: undefined | string = undefined;
 
     while (limit === undefined || limit > 0) {
-      const response: v.Infer<typeof ListResponse> = await this.base
-        .request("/kv/list", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            prefix: selector.prefix,
-            limit: limit === undefined ? 100 : Math.min(100, limit),
-            cursor,
-          }),
-        })
-        .then((r) => r.json())
-        .then((json) => ListResponse.parse(json));
+      const response: v.Infer<typeof ListResponse> = await this.client.request({
+        path: ["kv", "list"],
+        method: "POST",
+        idempotent: true,
+        json: {
+          prefix: selector.prefix,
+          limit: limit === undefined ? 100 : Math.min(100, limit),
+          cursor,
+        },
+        responseType: ListResponse,
+      });
 
       yield* response.entries.slice(0, limit);
       if (limit !== undefined) {
@@ -112,7 +106,7 @@ export class Kv {
   }
 
   atomic(): AtomicOperation {
-    return new AtomicOperation(this.base);
+    return new AtomicOperation(this.client);
   }
 }
 
@@ -120,7 +114,7 @@ class AtomicOperation {
   private readonly _checks: AtomicCheck[] = [];
   private readonly _mutations: KvMutation[] = [];
 
-  constructor(private readonly base: APIBase) {}
+  constructor(private readonly base: Client) {}
 
   check(...checks: AtomicCheck[]): this {
     this._checks.push(...checks);
@@ -143,18 +137,14 @@ class AtomicOperation {
   }
 
   async commit(): Promise<KvCommitResult | KvCommitError> {
-    return this.base
-      .request("/kv/mutate", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          checks: this._checks,
-          mutations: this._mutations,
-        }),
-      })
-      .then((r) => r.json())
-      .then((json) => CommitResponse.parse(json));
+    return this.base.request({
+      method: "POST",
+      path: ["kv", "mutate"],
+      json: {
+        checks: this._checks,
+        mutations: this._mutations,
+      },
+      responseType: CommitResponse,
+    });
   }
 }
