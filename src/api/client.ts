@@ -3,7 +3,10 @@ import { STATUS_CODES } from "node:http";
 import { Headers, Pool } from "undici";
 
 export class HTTPError extends Error {
-  constructor(readonly statusCode: number, readonly statusText: string) {
+  constructor(
+    readonly statusCode: number,
+    readonly statusText: string,
+  ) {
     super(`HTTP status code ${statusCode} (${statusText})`);
     Object.setPrototypeOf(this, new.target.prototype);
   }
@@ -31,7 +34,7 @@ function joinPath(path: string[]): string {
 
 function getHeader(
   headers: Record<string, string | string[] | undefined>,
-  name: "etag" | "content-type"
+  name: "etag" | "content-type",
 ): string | undefined {
   const value = headers[name];
   if (Array.isArray(value)) {
@@ -52,7 +55,7 @@ export class Client {
   }
 
   async requestWithEtag<T extends Type>(
-    options: RequestOptions<T>
+    options: RequestOptions<T>,
   ): Promise<{ body: Infer<T>; etag?: string }> {
     let pathname = this.baseUrl.pathname + `/app/${joinPath(options.path)}`;
     pathname = pathname.replace(/\/+/g, "/");
@@ -79,7 +82,7 @@ export class Client {
       await response.body.dump();
       throw new HTTPError(
         response.statusCode,
-        STATUS_CODES[response.statusCode] ?? ""
+        STATUS_CODES[response.statusCode] ?? "",
       );
     }
 

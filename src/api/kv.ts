@@ -31,21 +31,21 @@ const GetManyResponse = v.object({
   entries: v.array(
     v.union(
       v.object({ key: Key, value: v.unknown(), versionstamp: v.string() }),
-      v.object({ key: Key, value: v.null(), versionstamp: v.null() })
-    )
+      v.object({ key: Key, value: v.null(), versionstamp: v.null() }),
+    ),
   ),
 });
 
 const ListResponse = v.object({
   entries: v.array(
-    v.object({ key: Key, value: v.unknown(), versionstamp: v.string() })
+    v.object({ key: Key, value: v.unknown(), versionstamp: v.string() }),
   ),
   cursor: v.string().optional(),
 });
 
 const CommitResponse = v.union(
   v.object({ ok: v.literal(true), versionstamp: v.string() }),
-  v.object({ ok: v.literal(false) })
+  v.object({ ok: v.literal(false) }),
 );
 
 export class Kv {
@@ -75,7 +75,7 @@ export class Kv {
 
   async *list(
     selector: KvListSelector,
-    options?: KvListOptions
+    options?: KvListOptions,
   ): KvListIterator<unknown> {
     let { limit } = options ?? {};
     let cursor: undefined | string = undefined;

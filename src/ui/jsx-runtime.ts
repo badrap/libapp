@@ -25,7 +25,7 @@ namespace ui {
 
   export function jsx<T extends FC | keyof JSX.IntrinsicElements>(
     type: T,
-    props: Record<string, unknown>
+    props: Record<string, unknown>,
   ): UiNode {
     if (typeof type === "string") {
       const { children, ...rest } = props;

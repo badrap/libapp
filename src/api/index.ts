@@ -33,7 +33,7 @@ export type Event = Readonly<{
 type MaybePromise<T> = Promise<T> | T;
 
 export class API<
-  InstallationState extends Record<string, unknown> = Record<string, unknown>
+  InstallationState extends Record<string, unknown> = Record<string, unknown>,
 > {
   private readonly client: Client;
   private readonly stateType: v.Type<InstallationState>;
@@ -42,7 +42,7 @@ export class API<
   constructor(
     apiUrl: string,
     apiToken: string,
-    stateType?: v.Type<InstallationState>
+    stateType?: v.Type<InstallationState>,
   ) {
     this.client = new Client(apiUrl, apiToken);
     this.stateType = stateType ?? (v.record() as v.Type<InstallationState>);
@@ -50,7 +50,7 @@ export class API<
   }
 
   async checkAuthToken(
-    token: string
+    token: string,
   ): Promise<{ installationId: string; sessionId: string; expiresAt: number }> {
     const result = await this.client.request({
       method: "POST",
@@ -108,10 +108,10 @@ export class API<
           owner: v
             .union(
               v.object({ type: v.literal("team"), name: v.string() }),
-              v.object({ type: v.literal("user"), email: v.string() })
+              v.object({ type: v.literal("user"), email: v.string() }),
             )
             .optional(),
-        })
+        }),
       ),
     });
   }
@@ -122,7 +122,7 @@ export class API<
     callback: {
       action?: unknown;
       clientState?: Record<string, unknown>;
-    } = {}
+    } = {},
   ): Promise<string> {
     return this.client.request({
       method: "POST",
@@ -137,7 +137,7 @@ export class API<
   }
 
   async getInstallation(
-    installationId: string
+    installationId: string,
   ): Promise<Installation<InstallationState>> {
     return this.client.request({
       method: "GET",
@@ -157,7 +157,7 @@ export class API<
     } | void>,
     options?: {
       maxRetries?: number;
-    }
+    },
   ): Promise<Installation<InstallationState>> {
     const { maxRetries = Infinity } = options ?? {};
 
@@ -207,7 +207,7 @@ export class API<
   }
 
   async listOwnerAssets(
-    installationId: string
+    installationId: string,
   ): Promise<{ type: "ip" | "email" | "domain"; value: string }[]> {
     return this.client.request({
       method: "GET",
@@ -217,10 +217,10 @@ export class API<
           type: v.union(
             v.literal("ip"),
             v.literal("email"),
-            v.literal("domain")
+            v.literal("domain"),
           ),
           value: v.string(),
-        })
+        }),
       ),
     });
   }
@@ -231,7 +231,7 @@ export class API<
       title?: string;
       summaryTemplate?: unknown;
       detailsTemplate?: unknown;
-    }
+    },
   ): Promise<void> {
     try {
       await this.client.request({
@@ -264,7 +264,7 @@ export class API<
   async feedEventsForInstallation(
     installationId: string,
     feedName: string,
-    events: Event[]
+    events: Event[],
   ): Promise<void> {
     await this.client.request({
       method: "POST",
