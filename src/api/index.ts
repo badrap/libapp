@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import { HTTPError, Client } from "./client.js";
+import { HTTPError, Client, ClientConfig } from "./client.js";
 import { Kv } from "./kv.js";
 
 export { HTTPError };
@@ -32,6 +32,10 @@ export type Event = Readonly<{
 
 type MaybePromise<T> = Promise<T> | T;
 
+interface Config<InstallationState> extends ClientConfig {
+  stateType?: v.Type<InstallationState>;
+}
+
 export class API<
   InstallationState extends Record<string, unknown> = Record<string, unknown>,
 > {
@@ -39,13 +43,10 @@ export class API<
   private readonly stateType: v.Type<InstallationState>;
   readonly experimentalKv: Kv;
 
-  constructor(
-    apiUrl: string,
-    apiToken: string,
-    stateType?: v.Type<InstallationState>,
-  ) {
-    this.client = new Client(apiUrl, apiToken);
-    this.stateType = stateType ?? (v.record() as v.Type<InstallationState>);
+  constructor(config: Config<InstallationState>) {
+    this.client = new Client(config);
+    this.stateType =
+      config.stateType ?? (v.record() as v.Type<InstallationState>);
     this.experimentalKv = new Kv(this.client);
   }
 

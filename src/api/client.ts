@@ -43,15 +43,23 @@ function getHeader(
   return value;
 }
 
+export interface ClientConfig {
+  url: string;
+  token: string;
+  userAgent?: string;
+}
+
 export class Client {
   private readonly apiToken: string;
   private readonly baseUrl: URL;
   private readonly pool: Pool;
+  private readonly userAgent: string;
 
-  constructor(apiUrl: string, apiToken: string) {
-    this.apiToken = apiToken;
-    this.baseUrl = new URL(apiUrl);
+  constructor(config: ClientConfig) {
+    this.apiToken = config.token;
+    this.baseUrl = new URL(config.url);
     this.pool = new Pool(this.baseUrl.origin);
+    this.userAgent = config.userAgent ?? "libapp";
   }
 
   async requestWithEtag<T extends Type>(
@@ -62,6 +70,10 @@ export class Client {
 
     const headers = new Headers(options.headers);
     headers.set("authorization", `Bearer ${this.apiToken}`);
+
+    if (!headers.has("user-agent")) {
+      headers.set("user-agent", this.userAgent);
+    }
 
     let body: null | string = null;
     if (options.json !== undefined) {
