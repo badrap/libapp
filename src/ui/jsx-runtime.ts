@@ -35,8 +35,8 @@ namespace ui {
         children: Array.isArray(children)
           ? children
           : children == null
-          ? undefined
-          : [children],
+            ? undefined
+            : [children],
       };
     }
     return (type as FC)(props);
