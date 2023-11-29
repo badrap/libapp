@@ -12,8 +12,10 @@ export class UpdateFailed extends Error {
 }
 
 export type Installation<State extends Record<string, unknown>> = {
+  id: string;
   removed: boolean;
   state: State;
+  owner?: { type: "team"; name: string } | { type: "user"; email: string };
 };
 
 export type Asset = Readonly<{
@@ -144,8 +146,15 @@ export class API<
       method: "GET",
       path: ["installations", installationId],
       responseType: v.object({
+        id: v.string(),
         removed: v.boolean(),
         state: this.stateType,
+        owner: v
+          .union(
+            v.object({ type: v.literal("team"), name: v.string() }),
+            v.object({ type: v.literal("user"), email: v.string() }),
+          )
+          .optional(),
       }),
     });
   }
@@ -167,8 +176,15 @@ export class API<
         method: "GET",
         path: ["installations", installationId],
         responseType: v.object({
+          id: v.string(),
           removed: v.boolean(),
           state: this.stateType,
+          owner: v
+            .union(
+              v.object({ type: v.literal("team"), name: v.string() }),
+              v.object({ type: v.literal("user"), email: v.string() }),
+            )
+            .optional(),
         }),
       });
 
