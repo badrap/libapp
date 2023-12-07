@@ -13,8 +13,8 @@
   "exports": {
     "./api": "./dist/api/index.js",
     "./ui": "./dist/ui/index.js",
-    "./ui/jsx-runtime": "./dist/ui/jsx-runtime.js",
-    "./ui/jsx-dev-runtime": "./dist/ui/jsx-dev-runtime.js"
+    "./jsx-runtime": "./dist/jsx-runtime.js",
+    "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },
   "typesVersions": {
     "*": {

@@ -10,15 +10,25 @@ npm i @badrap/libapp
 
 ## Enabling JSX/TSX support
 
-Modify your tsconfig.json file by adding in the following lines:
+To enable JSX/TSX support for your whole codebase, modify your **tsconfig.json** file by adding in the following lines:
 
-```
+```json
 {
   "compilerOptions": {
     ...
     "jsx": "react-jsx",
-    "jsxImportSource": "@badrap/libapp/ui"
+    "jsxImportSource": "@badrap/libapp"
   },
   ...
 }
 ```
+
+To enable JSX/TSX support for just one specific file, add the following pragma comment to the beginning of that file:
+
+```ts
+/* @jsxImportSource @badrap/libapp */
+```
+
+## License
+
+This library is licensed under the MIT license. See [./LICENSE].
