@@ -16,14 +16,6 @@
     "./jsx-runtime": "./dist/jsx-runtime.js",
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./dist/*/index.d.ts"
-      ]
-    }
-  },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore --max-warnings 0 --ext=.js,.ts .",
     "typecheck": "tsc --skipLibCheck --noEmit",
