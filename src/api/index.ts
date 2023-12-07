@@ -94,14 +94,12 @@ export class API<
     });
   }
 
-  async getInstallations(): Promise<
-    {
-      id: string;
-      removed: boolean;
-      owner?: { type: "team"; name: string } | { type: "user"; email: string };
-    }[]
-  > {
-    return this.client.request({
+  async *listInstallations(): AsyncIterable<{
+    id: string;
+    removed: boolean;
+    owner?: { type: "team"; name: string } | { type: "user"; email: string };
+  }> {
+    yield* await this.client.request({
       method: "GET",
       path: ["installations"],
       responseType: v.array(
@@ -223,10 +221,10 @@ export class API<
     });
   }
 
-  async listOwnerAssets(
+  async *listOwnerAssets(
     installationId: string,
-  ): Promise<{ type: "ip" | "email" | "domain"; value: string }[]> {
-    return this.client.request({
+  ): AsyncIterable<{ type: "ip" | "email" | "domain"; value: string }> {
+    yield* await this.client.request({
       method: "GET",
       path: ["installations", installationId, "owner", "assets"],
       responseType: v.array(
