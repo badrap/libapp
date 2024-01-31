@@ -17,7 +17,7 @@
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore --max-warnings 0 --ext=.js,.ts .",
+    "lint": "eslint --max-warnings 0 .",
     "typecheck": "tsc --skipLibCheck --noEmit",
     "build": "rm -rf dist/* && tsc",
     "prepack": "npm run build"
