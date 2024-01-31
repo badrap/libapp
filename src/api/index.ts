@@ -43,13 +43,13 @@ export class API<
 > {
   private readonly client: Client;
   private readonly stateType: v.Type<InstallationState>;
-  readonly experimentalKv: Kv;
+  readonly kv: Kv;
 
   constructor(config: Config<InstallationState>) {
     this.client = new Client(config);
     this.stateType =
       config.stateType ?? (v.record() as v.Type<InstallationState>);
-    this.experimentalKv = new Kv(this.client);
+    this.kv = new Kv(this.client);
   }
 
   async checkAuthToken(
