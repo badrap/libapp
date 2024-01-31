@@ -74,26 +74,6 @@ export class API<
     };
   }
 
-  async seal(data: unknown, expiresIn: number): Promise<string> {
-    return this.client.request({
-      method: "POST",
-      path: ["seal"],
-      idempotent: true,
-      json: { expires_in: expiresIn, data },
-      responseType: v.object({ data: v.string() }).map((r) => r.data),
-    });
-  }
-
-  async unseal(data: string): Promise<unknown> {
-    return this.client.request({
-      method: "POST",
-      path: ["unseal"],
-      idempotent: true,
-      json: { data },
-      responseType: v.object({ data: v.unknown() }).map((r) => r.data),
-    });
-  }
-
   async *listInstallations(): AsyncIterable<{
     id: string;
     removed: boolean;
