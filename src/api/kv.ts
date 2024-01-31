@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import type { Client } from "./client.js";
+import { Client, HTTPError } from "./client.js";
 
 type KvKey = (number | string | boolean)[];
 
@@ -43,10 +43,7 @@ const ListResponse = v.object({
   cursor: v.string().optional(),
 });
 
-const CommitResponse = v.union(
-  v.object({ ok: v.literal(true), versionstamp: v.string() }),
-  v.object({ ok: v.literal(false) }),
-);
+const CommitResponse = v.union(v.object({ versionstamp: v.string() }));
 
 export class Kv {
   constructor(private readonly client: Client) {}
@@ -137,14 +134,26 @@ class AtomicOperation {
   }
 
   async commit(): Promise<KvCommitResult | KvCommitError> {
-    return this.base.request({
-      method: "POST",
-      path: ["kv", "mutate"],
-      json: {
-        checks: this._checks,
-        mutations: this._mutations,
-      },
-      responseType: CommitResponse,
-    });
+    return this.base
+      .request({
+        method: "POST",
+        path: ["kv", "mutate"],
+        json: {
+          checks: this._checks,
+          mutations: this._mutations,
+        },
+        responseType: CommitResponse,
+      })
+      .then(
+        ({ versionstamp }) => {
+          return { ok: true, versionstamp };
+        },
+        (err) => {
+          if (err instanceof HTTPError && err.statusCode === 409) {
+            return { ok: false };
+          }
+          throw err;
+        },
+      );
   }
 }
