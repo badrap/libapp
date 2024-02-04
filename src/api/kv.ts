@@ -12,7 +12,7 @@ type KvEntryMaybe<T> =
 type AtomicCheck = { key: KvKey; versionstamp: string | null };
 
 type KvMutation =
-  | { type: "set"; key: KvKey; value: unknown }
+  | { type: "set"; key: KvKey; value: unknown; expireIn?: number }
   | { type: "delete"; key: KvKey };
 
 type KvCommitResult = { ok: true; versionstamp: string };
@@ -123,8 +123,13 @@ class AtomicOperation {
     return this;
   }
 
-  set(key: KvKey, value: unknown): this {
-    this._mutations.push({ type: "set", key, value });
+  set(key: KvKey, value: unknown, options?: { expireIn?: number }): this {
+    this._mutations.push({
+      type: "set",
+      key,
+      value,
+      expireIn: options?.expireIn,
+    });
     return this;
   }
 
