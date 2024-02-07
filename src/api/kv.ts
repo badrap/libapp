@@ -48,6 +48,25 @@ const CommitResponse = v.union(v.object({ versionstamp: v.string() }));
 export class Kv {
   constructor(private readonly client: Client) {}
 
+  async set(
+    key: KvKey,
+    value: unknown,
+    options?: { expireIn?: number },
+  ): Promise<KvCommitResult> {
+    const result = await this.atomic().set(key, value, options).commit();
+    if (!result.ok) {
+      throw new Error("expected a successful commit");
+    }
+    return result;
+  }
+
+  async delete(key: KvKey): Promise<void> {
+    const result = await this.atomic().delete(key).commit();
+    if (!result.ok) {
+      throw new Error("expected a successful commit");
+    }
+  }
+
   async get(key: KvKey): Promise<KvEntryMaybe<unknown>> {
     const [result] = await this.getMany([key]);
     if (!result) {
