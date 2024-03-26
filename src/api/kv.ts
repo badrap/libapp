@@ -133,7 +133,9 @@ class AtomicOperation {
   constructor(private readonly base: Client) {}
 
   check(...checks: AtomicCheck[]): this {
-    this._checks.push(...checks);
+    for (const { key, versionstamp } of checks) {
+      this._checks.push({ key, versionstamp });
+    }
     return this;
   }
 
@@ -153,7 +155,18 @@ class AtomicOperation {
   }
 
   mutate(...mutations: KvMutation[]): this {
-    this._mutations.push(...mutations);
+    for (const mutation of mutations) {
+      switch (mutation.type) {
+        case "set": {
+          this.set(mutation.key, mutation.value, mutation);
+          break;
+        }
+        case "delete": {
+          this.delete(mutation.key);
+          break;
+        }
+      }
+    }
     return this;
   }
 
