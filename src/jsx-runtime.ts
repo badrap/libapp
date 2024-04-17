@@ -58,9 +58,56 @@ export namespace JSX {
   }
   export type Element = UiNode;
 
+  type Responsive<T> = T | { base?: T; xs?: T; sm?: T; md?: T; lg?: T };
+  type Space = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+
   export interface IntrinsicElements {
     ["ui-box"]: {
       class?: ClassList;
+
+      width?: Responsive<string>;
+      minWidth?: Responsive<string>;
+      maxWidth?: Responsive<string>;
+      height?: Responsive<string>;
+      minHeight?: Responsive<string>;
+      maxHeight?: Responsive<string>;
+      p?: Responsive<Space>;
+      px?: Responsive<Space>;
+      py?: Responsive<Space>;
+      pt?: Responsive<Space>;
+      pb?: Responsive<Space>;
+      pl?: Responsive<Space>;
+      pr?: Responsive<Space>;
+
+      display?: Responsive<"none" | "inline" | "block" | "inline-block">;
+
+      children?: UiNode;
+    };
+    ["ui-flex"]: {
+      width?: Responsive<string>;
+      minWidth?: Responsive<string>;
+      maxWidth?: Responsive<string>;
+      height?: Responsive<string>;
+      minHeight?: Responsive<string>;
+      maxHeight?: Responsive<string>;
+      p?: Responsive<Space>;
+      px?: Responsive<Space>;
+      py?: Responsive<Space>;
+      pt?: Responsive<Space>;
+      pb?: Responsive<Space>;
+      pl?: Responsive<Space>;
+      pr?: Responsive<Space>;
+
+      display?: Responsive<"none" | "flex" | "inline-flex">;
+      gap?: Responsive<Space>;
+      gapX?: Responsive<Space>;
+      gapY?: Responsive<Space>;
+      direction?: Responsive<
+        "row" | "column" | "row-reverse" | "column-reverse"
+      >;
+      align?: Responsive<"start" | "end" | "center" | "baseline" | "stretch">;
+      justify?: Responsive<"start" | "end" | "center" | "space-between">;
+      wrap?: Responsive<"wrap" | "nowrap" | "wrap-reverse">;
       children?: UiNode;
     };
     ["ui-form"]: {
