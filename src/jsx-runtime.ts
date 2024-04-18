@@ -12,6 +12,7 @@ export type UiNode =
   | null
   | boolean
   | string
+  | number
   | UiNode[]
   | {
       type: string;
