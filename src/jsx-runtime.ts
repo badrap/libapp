@@ -78,6 +78,9 @@ export namespace JSX {
       pb?: Responsive<Space>;
       pl?: Responsive<Space>;
       pr?: Responsive<Space>;
+      flexBasis?: Responsive<string>;
+      flexGrow?: Responsive<string>;
+      flexShrink?: Responsive<string>;
 
       display?: Responsive<"none" | "inline" | "block" | "inline-block">;
 
@@ -97,6 +100,9 @@ export namespace JSX {
       pb?: Responsive<Space>;
       pl?: Responsive<Space>;
       pr?: Responsive<Space>;
+      flexBasis?: Responsive<string>;
+      flexGrow?: Responsive<string>;
+      flexShrink?: Responsive<string>;
 
       display?: Responsive<"none" | "flex" | "inline-flex">;
       gap?: Responsive<Space>;
