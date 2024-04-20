@@ -63,6 +63,9 @@ export namespace JSX {
   type Space = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
   export interface IntrinsicElements {
+    ["ui-divider"]: {
+      orientation?: Responsive<"horizontal" | "vertical">;
+    };
     ["ui-text"]: {
       size?: Responsive<"1" | "2" | "3">;
       align?: Responsive<"left" | "center" | "right">;
