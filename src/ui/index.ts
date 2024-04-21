@@ -1,3 +1,1 @@
-import type { UiNode, Fragment } from "../jsx-runtime";
-
-export type { UiNode, Fragment };
+export type { UiNode, Fragment } from "./internal.js";
