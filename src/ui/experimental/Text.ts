@@ -1,4 +1,4 @@
-import { Responsive, UiNode, createElement } from "../internal.js";
+import { Responsive, UiNode, element } from "../internal.js";
 
 type TextProps = {
   size?: Responsive<"1" | "2" | "3">;
@@ -10,6 +10,5 @@ type TextProps = {
 };
 
 export function Text(props: TextProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-text", rest, children);
+  return element("ui-text", props);
 }

@@ -1,4 +1,4 @@
-import { UiNode, createElement } from "../internal.js";
+import { UiNode, element } from "../internal.js";
 
 type CalloutProps = {
   type?: "info" | "success" | "warning" | "error";
@@ -7,6 +7,5 @@ type CalloutProps = {
 };
 
 export function Callout(props: CalloutProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-alert", rest, children);
+  return element("ui-alert", props);
 }

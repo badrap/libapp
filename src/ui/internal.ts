@@ -28,14 +28,15 @@ export function Fragment(props: { children: UiNode }): UiNode {
   return props.children;
 }
 
-export function createElement(
+export function element(
   type: string | FunctionalComponent,
   props: Record<string, unknown>,
-  ...children: UiNode[]
 ): UiNode {
   if (typeof type === "string") {
+    const { children, ...rest } = props;
+
     let jsonProps: Record<string, unknown> | undefined;
-    for (const [key, value] of Object.entries(props)) {
+    for (const [key, value] of Object.entries(rest)) {
       if (value === undefined) {
         continue;
       }
@@ -50,13 +51,15 @@ export function createElement(
       type,
       props: jsonProps,
       children: Array.isArray(children)
-        ? children
+        ? children.length === 0
+          ? undefined
+          : children
         : children === undefined || children === null
           ? undefined
           : [children],
     };
   }
-  return type({ ...props, children });
+  return type(props);
 }
 
 export type Responsive<T> = T | { base?: T; xs?: T; sm?: T; md?: T; lg?: T };

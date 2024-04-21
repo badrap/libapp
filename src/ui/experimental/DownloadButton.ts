@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type DownloadButtonProps = {
   variant?: "default" | "primary" | "danger";
@@ -10,6 +10,5 @@ type DownloadButtonProps = {
 };
 
 export function DownloadButton(props: DownloadButtonProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-download-button", rest, children);
+  return element("ui-download-button", props);
 }

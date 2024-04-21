@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type SwitchProps = {
   name?: string;
@@ -9,5 +9,5 @@ type SwitchProps = {
 };
 
 export function Switch(props: SwitchProps): UiNode {
-  return createElement("ui-switch", props);
+  return element("ui-switch", props);
 }

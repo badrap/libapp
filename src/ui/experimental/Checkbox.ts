@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type CheckboxProps = {
   name?: string;
@@ -9,5 +9,5 @@ type CheckboxProps = {
 };
 
 export function Checkbox(props: CheckboxProps): UiNode {
-  return createElement("ui-checkbox", props);
+  return element("ui-checkbox", props);
 }

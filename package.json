@@ -13,7 +13,7 @@
   "exports": {
     "./api": "./dist/api/index.js",
     "./ui": "./dist/ui/index.js",
-    "./ui/experimental": "./dist/experimental/index.js",
+    "./ui/experimental": "./dist/ui/experimental/index.js",
     "./jsx-runtime": "./dist/jsx-runtime.js",
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },

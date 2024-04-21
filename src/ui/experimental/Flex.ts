@@ -1,4 +1,4 @@
-import { Responsive, Space, UiNode, createElement } from "../internal.js";
+import { Responsive, Space, UiNode, element } from "../internal.js";
 
 type FlexProps = {
   width?: Responsive<string>;
@@ -30,6 +30,5 @@ type FlexProps = {
 };
 
 export function Flex(props: FlexProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-flex", rest, children);
+  return element("ui-flex", props);
 }

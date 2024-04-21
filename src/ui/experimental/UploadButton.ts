@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type UploadButtonProps = {
   name: string;
@@ -10,6 +10,5 @@ type UploadButtonProps = {
 };
 
 export function UploadButton(props: UploadButtonProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-upload-button", rest, children);
+  return element("ui-upload-button", props);
 }

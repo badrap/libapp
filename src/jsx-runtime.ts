@@ -3,7 +3,7 @@ import {
   UiNode,
   FunctionalComponent,
   Fragment,
-  createElement,
+  element,
 } from "./ui/internal.js";
 
 export { UiNode, FunctionalComponent, Fragment };
@@ -13,8 +13,7 @@ type ClassList = string | Record<string, boolean> | ClassList[];
 export function jsx<
   T extends FunctionalComponent | keyof JSX.IntrinsicElements,
 >(type: T, props: Record<string, unknown>): UiNode {
-  const { children, ...rest } = props;
-  return createElement(type, rest, children as UiNode);
+  return element(type, props);
 }
 
 export const jsxs = jsx;

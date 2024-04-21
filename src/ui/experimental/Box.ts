@@ -1,4 +1,4 @@
-import { Responsive, Space, UiNode, createElement } from "../internal.js";
+import { Responsive, Space, UiNode, element } from "../internal.js";
 
 type BoxProps = {
   width?: Responsive<string>;
@@ -22,6 +22,5 @@ type BoxProps = {
 };
 
 export function Box(props: BoxProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-box", rest, children);
+  return element("ui-box", props);
 }

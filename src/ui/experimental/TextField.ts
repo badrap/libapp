@@ -1,4 +1,4 @@
-import { UiNode, createElement } from "../internal.js";
+import { UiNode, element } from "../internal.js";
 
 type TextFieldProps = {
   name: string;
@@ -11,5 +11,5 @@ type TextFieldProps = {
 };
 
 export function TextField(props: TextFieldProps): UiNode {
-  return createElement("ui-text-field", props);
+  return element("ui-text-field", props);
 }

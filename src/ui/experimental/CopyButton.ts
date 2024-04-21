@@ -1,4 +1,4 @@
-import { UiNode, createElement } from "../internal.js";
+import { UiNode, element } from "../internal.js";
 
 type CopyButtonProps = {
   variant?: "default" | "primary" | "danger";
@@ -9,6 +9,5 @@ type CopyButtonProps = {
 };
 
 export function CopyButton(props: CopyButtonProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-copy-button", rest, children);
+  return element("ui-copy-button", props);
 }

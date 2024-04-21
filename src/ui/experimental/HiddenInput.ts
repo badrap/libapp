@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type HiddenInputProps = {
   name: string;
@@ -7,5 +7,5 @@ type HiddenInputProps = {
 };
 
 export function HiddenInput(props: HiddenInputProps): UiNode {
-  return createElement("ui-hidden-input", props);
+  return element("ui-hidden-input", props);
 }

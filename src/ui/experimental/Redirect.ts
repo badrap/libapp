@@ -1,9 +1,9 @@
-import { UiNode, createElement } from "../internal.js";
+import { UiNode, element } from "../internal.js";
 
 type RedirectProps = {
   to: string;
 };
 
 export function Redirect(props: RedirectProps): UiNode {
-  return createElement("ui-redirect", props);
+  return element("ui-redirect", props);
 }

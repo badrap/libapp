@@ -1,4 +1,4 @@
-import { UiNode, createElement } from "../internal.js";
+import { UiNode, element } from "../internal.js";
 
 type LinkProps = {
   href: string;
@@ -6,6 +6,5 @@ type LinkProps = {
 };
 
 export function Link(props: LinkProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-link", rest, children);
+  return element("ui-link", props);
 }

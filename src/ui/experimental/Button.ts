@@ -1,4 +1,4 @@
-import { Json, UiNode, createElement } from "../internal.js";
+import { Json, UiNode, element } from "../internal.js";
 
 type ButtonProps = {
   variant?: "default" | "primary" | "danger";
@@ -10,6 +10,5 @@ type ButtonProps = {
 };
 
 export function Button(props: ButtonProps): UiNode {
-  const { children, ...rest } = props;
-  return createElement("ui-button", rest, children);
+  return element("ui-button", props);
 }
