@@ -62,6 +62,6 @@ export function element(
   return type(props);
 }
 
-export type Responsive<T> = T | { base?: T; xs?: T; sm?: T; md?: T; lg?: T };
+export type Responsive<T> = T | { base?: T; sm?: T; md?: T; lg?: T };
 
 export type Space = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
