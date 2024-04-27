@@ -1,8 +1,6 @@
-name: publish
+name: CI
 
-on:
-  release:
-    types: [created]
+on: ["push", "pull_request"]
 
 jobs:
   build:
@@ -13,10 +11,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm test

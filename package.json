@@ -6,6 +6,10 @@
     "type": "git",
     "url": "git+https://github.com/badrap/libapp.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "engines": {
     "node": ">=18"
   },
@@ -21,7 +25,10 @@
     "lint": "eslint --max-warnings 0 .",
     "typecheck": "tsc --skipLibCheck --noEmit",
     "build": "rm -rf dist/* && tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "changeset": "changeset",
+    "bump": "changeset version",
+    "release": "changeset publish"
   },
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
@@ -30,6 +37,8 @@
   },
   "homepage": "https://github.com/badrap/libapp#readme",
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
