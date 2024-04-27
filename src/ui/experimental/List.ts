@@ -1,7 +1,7 @@
-import { UiNode, element } from "../internal.js";
+import { UiNode, element, Responsive } from "../internal.js";
 
 type ListProps = {
-  size?: "sm" | "md";
+  size?: Responsive<"sm" | "md">;
   children?: UiNode;
 };
 
