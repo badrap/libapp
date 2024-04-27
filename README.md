@@ -15,11 +15,9 @@ To enable JSX/TSX support for your whole codebase, modify your **tsconfig.json**
 ```json
 {
   "compilerOptions": {
-    ...
     "jsx": "react-jsx",
     "jsxImportSource": "@badrap/libapp"
-  },
-  ...
+  }
 }
 ```
 

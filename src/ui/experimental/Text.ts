@@ -1,10 +1,10 @@
 import { Responsive, UiNode, element } from "../internal.js";
 
 type TextProps = {
-  size?: Responsive<"1" | "2" | "3">;
+  size?: Responsive<"xs" | "sm" | "md">;
   align?: Responsive<"left" | "center" | "right">;
-  weight?: Responsive<"regular" | "medium" | "bold">;
-  color?: "gray" | "orange" | "red" | "green" | "blue";
+  weight?: Responsive<"regular" | "medium" | "semibold">;
+  color?: "base" | "gray" | "orange" | "red" | "green" | "blue";
   truncate?: boolean;
   children?: UiNode;
 };

@@ -1,6 +1,7 @@
 import { UiNode, element } from "../internal.js";
 
 type ListProps = {
+  size?: "sm" | "md";
   children?: UiNode;
 };
 
