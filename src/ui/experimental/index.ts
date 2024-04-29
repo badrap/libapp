@@ -9,6 +9,7 @@ export { DownloadButton } from "./DownloadButton.js";
 export { Flex } from "./Flex.js";
 export { Form } from "./Form.js";
 export { HiddenInput } from "./HiddenInput.js";
+export { Icon } from "./Icon.js";
 export { Link } from "./Link.js";
 export { List } from "./List.js";
 export { Redirect } from "./Redirect.js";
