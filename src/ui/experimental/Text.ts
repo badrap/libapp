@@ -4,7 +4,7 @@ type TextProps = {
   size?: Responsive<"xs" | "sm" | "md">;
   align?: Responsive<"left" | "center" | "right">;
   weight?: Responsive<"regular" | "medium" | "semibold">;
-  color?: "base" | "gray" | "orange" | "red" | "green" | "blue";
+  color?: "base" | "gray" | "red" | "orange" | "yellow" | "green" | "blue";
   truncate?: boolean;
   children?: UiNode;
 };
