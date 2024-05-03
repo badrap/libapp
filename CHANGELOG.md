@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.6.12
+
+### Patch Changes
+
+- 9b11347: Add MaterialIcon
+- 6fff308: Add yellow text & icon color
+
 ## 0.6.11
 
 ### Patch Changes
