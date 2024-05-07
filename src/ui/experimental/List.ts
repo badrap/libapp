@@ -1,6 +1,7 @@
 import { UiNode, element, Responsive } from "../internal.js";
 
 type ListProps = {
+  header?: string;
   size?: Responsive<"sm" | "md">;
   children?: UiNode;
 };
@@ -15,13 +16,4 @@ type ListItemProps = {
 
 List.Item = function ListItem(props: ListItemProps): UiNode {
   return element("ui-list-item", props);
-};
-
-type ListSectionProps = {
-  title: string;
-  children?: UiNode;
-};
-
-List.Section = function ListSection(props: ListSectionProps): UiNode {
-  return element("ui-list-section", props);
 };
