@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.6.13
+
+### Patch Changes
+
+- 8b70984: Remove List.Section for now
+- f71dd5f: rename Callout to Alert
+
 ## 0.6.12
 
 ### Patch Changes
