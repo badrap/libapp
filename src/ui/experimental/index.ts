@@ -8,6 +8,7 @@ export { Divider } from "./Divider.js";
 export { DownloadButton } from "./DownloadButton.js";
 export { Flex } from "./Flex.js";
 export { Form } from "./Form.js";
+export { Hidden } from "./Hidden.js";
 export { HiddenInput } from "./HiddenInput.js";
 export { MaterialIcon } from "./MaterialIcon.js";
 export { Link } from "./Link.js";
