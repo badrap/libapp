@@ -3,6 +3,7 @@ import { Json, UiNode, element } from "../internal.js";
 type ButtonProps = {
   variant?: "default" | "primary" | "danger";
   size?: "sm" | "md";
+  icon?: `mdi:${string}`;
   disabled?: boolean;
   action?: Json;
   submit?: boolean;
