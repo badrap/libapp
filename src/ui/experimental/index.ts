@@ -10,7 +10,7 @@ export { Flex } from "./Flex.js";
 export { Form } from "./Form.js";
 export { Hidden } from "./Hidden.js";
 export { HiddenInput } from "./HiddenInput.js";
-export { MaterialIcon } from "./MaterialIcon.js";
+export { Icon } from "./Icon.js";
 export { Link } from "./Link.js";
 export { List } from "./List.js";
 export { Redirect } from "./Redirect.js";
