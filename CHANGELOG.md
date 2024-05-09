@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.6.15
+
+### Patch Changes
+
+- 56a0280: Add icon prop to Buttons
+- 8a0e2a0: Rename MaterialIcon back to Icon
+
 ## 0.6.14
 
 ### Patch Changes
