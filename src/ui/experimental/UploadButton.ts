@@ -1,8 +1,8 @@
-import { Json, UiNode, element } from "../internal.js";
+import { Json, UiNode, element, Responsive } from "../internal.js";
 
 type UploadButtonProps = {
   name: string;
-  size?: "sm" | "md";
+  size?: Responsive<"sm" | "md">;
   action: Json;
   disabled?: boolean;
   multiple?: boolean;
