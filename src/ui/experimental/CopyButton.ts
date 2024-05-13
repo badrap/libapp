@@ -3,6 +3,7 @@ import { UiNode, element, Responsive } from "../internal.js";
 type CopyButtonProps = {
   variant?: "default" | "primary" | "danger";
   size?: Responsive<"sm" | "md">;
+  iconOnly?: Responsive<boolean>;
   disabled?: boolean;
   value: string;
   children?: UiNode;

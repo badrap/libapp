@@ -3,6 +3,7 @@ import { Json, UiNode, element, Responsive } from "../internal.js";
 type UploadButtonProps = {
   name: string;
   size?: Responsive<"sm" | "md">;
+  iconOnly?: Responsive<boolean>;
   action: Json;
   disabled?: boolean;
   multiple?: boolean;
