@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.6.16
+
+### Patch Changes
+
+- 04efe3c: Add responsive iconOnly and size Button props
+
 ## 0.6.15
 
 ### Patch Changes
