@@ -10,7 +10,7 @@ type ButtonProps = {
   children?: UiNode;
 } & (
   | {
-      icon: `mdi:${string}`;
+      icon: `material-symbols:${string}`;
       iconOnly?: Responsive<boolean>;
     }
   | {
