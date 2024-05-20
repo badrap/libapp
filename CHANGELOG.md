@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.6.17
+
+### Patch Changes
+
+- 249ed2a: Switch from mdi to material-symbols
+- b93a874: Add iconOnly props for all buttons
+
 ## 0.6.16
 
 ### Patch Changes
