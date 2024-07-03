@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.6.18
+
+### Patch Changes
+
+- 485e55e: Don't run install scripts from dependencies
+- 485e55e: Update dependencies
+
 ## 0.6.17
 
 ### Patch Changes
