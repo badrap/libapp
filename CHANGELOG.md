@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.6.19
+
+### Patch Changes
+
+- b58197c: Fix build process
+
 ## 0.6.18
 
 ### Patch Changes
