@@ -28,7 +28,7 @@
     "prepack": "npm run build",
     "changeset": "changeset",
     "bump": "changeset version",
-    "release": "changeset publish"
+    "release": "npm run build && changeset publish"
   },
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
