@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.6.20
+
+### Patch Changes
+
+- 9282473: Update @badrap/valita
+
 ## 0.6.19
 
 ### Patch Changes
