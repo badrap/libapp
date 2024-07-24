@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.0
+
+### Minor Changes
+
+- b877cff: Use the Fetch API to not be dependent on Node.js specific APIs
+
 ## 0.6.20
 
 ### Patch Changes
