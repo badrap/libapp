@@ -10,13 +10,14 @@ export { UiNode, FunctionalComponent, Fragment };
 
 type ClassList = string | Record<string, boolean> | ClassList[];
 
-export function jsx<
-  T extends FunctionalComponent | keyof JSX.IntrinsicElements,
->(type: T, props: Record<string, unknown>): UiNode {
-  return element(type, props);
-}
+type JSXFunc = <T extends FunctionalComponent | keyof JSX.IntrinsicElements>(
+  type: T,
+  props: Record<string, unknown>,
+) => UiNode;
 
-export const jsxs = jsx;
+export const jsx: JSXFunc = (type, props) => element(type, props);
+
+export const jsxs: JSXFunc = jsx;
 
 export declare namespace JSX {
   export interface ElementAttributesProperty {

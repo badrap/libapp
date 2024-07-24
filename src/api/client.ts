@@ -14,7 +14,6 @@ type RequestOptions<T extends Type> = {
   path: string[];
   headers?: Record<string, string>;
   json?: unknown;
-  idempotent?: boolean;
   responseType?: T;
 };
 
@@ -80,7 +79,7 @@ export class Client {
 
     const response = await fetch(url, {
       method: options.method,
-      headers: Object.fromEntries(headers.entries()),
+      headers,
       body,
     });
     if (response.status >= 400 && response.status < 600) {
