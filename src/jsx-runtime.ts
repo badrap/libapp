@@ -18,8 +18,7 @@ export function jsx<
 
 export const jsxs = jsx;
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace JSX {
+export declare namespace JSX {
   export interface ElementAttributesProperty {
     props: unknown;
   }

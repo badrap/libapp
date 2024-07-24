@@ -32,6 +32,7 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "@typescript-eslint/switch-exhaustiveness-check": "error"
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
+    "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true }]
   }
 }
