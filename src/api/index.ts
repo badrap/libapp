@@ -58,7 +58,6 @@ export class API<
     const result = await this.client.request({
       method: "POST",
       path: ["token"],
-      idempotent: true,
       json: { token },
       responseType: v.object({
         installation_id: v.string(),

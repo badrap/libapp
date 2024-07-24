@@ -1,6 +1,4 @@
 import type { Infer, Type } from "@badrap/valita";
-import { STATUS_CODES } from "node:http";
-import { Headers, Pool } from "undici";
 
 export class HTTPError extends Error {
   constructor(
@@ -31,15 +29,12 @@ function joinPath(path: string[]): string {
     .join("/");
 }
 
-function getHeader(
-  headers: Record<string, string | string[] | undefined>,
-  name: "etag" | "content-type",
-): string | undefined {
-  const value = headers[name];
-  if (Array.isArray(value)) {
-    return value.join(",");
+async function dump(stream: ReadableStream | null) {
+  if (stream) {
+    for await (const _ of stream) {
+      // pass
+    }
   }
-  return value;
 }
 
 export interface ClientConfig {
@@ -51,21 +46,22 @@ export interface ClientConfig {
 export class Client {
   private readonly apiToken: string;
   private readonly baseUrl: URL;
-  private readonly pool: Pool;
   private readonly userAgent: string;
 
   constructor(config: ClientConfig) {
     this.apiToken = config.token;
     this.baseUrl = new URL(config.url);
-    this.pool = new Pool(this.baseUrl.origin);
     this.userAgent = config.userAgent ?? "libapp";
   }
 
   async requestWithEtag<T extends Type>(
     options: RequestOptions<T>,
   ): Promise<{ body: Infer<T>; etag?: string }> {
-    let pathname = this.baseUrl.pathname + `/app/${joinPath(options.path)}`;
-    pathname = pathname.replace(/\/+/g, "/");
+    const url = new URL(this.baseUrl);
+    url.pathname = `${url.pathname}/app/${joinPath(options.path)}`.replace(
+      /\/{2,}/g,
+      "/",
+    );
 
     const headers = new Headers(options.headers);
     headers.set("authorization", `Bearer ${this.apiToken}`);
@@ -82,31 +78,25 @@ export class Client {
       }
     }
 
-    const response = await this.pool.request({
-      path: pathname,
+    const response = await fetch(url, {
       method: options.method,
       headers: Object.fromEntries(headers.entries()),
       body,
-      idempotent: options.idempotent,
     });
-    if (response.statusCode >= 400 && response.statusCode < 600) {
-      await response.body.dump();
-      throw new HTTPError(
-        response.statusCode,
-        STATUS_CODES[response.statusCode] ?? "",
-      );
+    if (response.status >= 400 && response.status < 600) {
+      await dump(response.body);
+      throw new HTTPError(response.status, response.statusText);
     }
-
-    const etag = getHeader(response.headers, "etag");
-    const contentType = getHeader(response.headers, "content-type");
 
     let json: unknown = undefined;
+    const contentType = response.headers.get("content-type");
     if (!/^application\/json\s*(;|$)/.test(contentType ?? "")) {
-      await response.body.dump();
+      await dump(response.body);
     } else {
-      json = await response.body.json();
+      json = await response.json();
     }
 
+    const etag = response.headers.get("etag") ?? undefined;
     if (!options.responseType) {
       return { body: json as Infer<T>, etag };
     }

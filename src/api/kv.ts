@@ -80,7 +80,6 @@ export class Kv {
       method: "POST",
       path: ["kv", "get"],
       json: { keys },
-      idempotent: true,
       responseType: GetManyResponse,
     });
     if (response.entries.length !== keys.length) {
@@ -100,7 +99,6 @@ export class Kv {
       const response: v.Infer<typeof ListResponse> = await this.client.request({
         path: ["kv", "list"],
         method: "POST",
-        idempotent: true,
         json: {
           prefix: selector.prefix,
           limit: limit === undefined ? 100 : Math.min(100, limit),
