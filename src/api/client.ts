@@ -8,7 +8,6 @@ export class HTTPError extends Error {
     readonly statusText: string,
   ) {
     super(`HTTP status code ${statusCode} (${statusText})`);
-    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
