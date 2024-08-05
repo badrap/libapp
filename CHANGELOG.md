@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- c67813f: Make LinkButton available fro app UIs
+- c67813f: Make LinkButton available for app UIs
 
 ## 0.7.0
 
