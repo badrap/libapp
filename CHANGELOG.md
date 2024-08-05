@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.1
+
+### Patch Changes
+
+- c67813f: Make LinkButton available fro app UIs
+
 ## 0.7.0
 
 ### Minor Changes
