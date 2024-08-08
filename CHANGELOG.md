@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.7.2
+
+### Patch Changes
+
+- 001068d: Add a ui/experimental/Select component
+- 086e08c: Flip around HiddenInput's 'valid' prop into 'invalid' and make it optional
+
 ## 0.7.1
 
 ### Patch Changes
