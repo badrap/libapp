@@ -15,6 +15,7 @@ export { Link } from "./Link.js";
 export { LinkButton } from "./LinkButton.js";
 export { List } from "./List.js";
 export { Redirect } from "./Redirect.js";
+export { Select } from "./Select.js";
 export { Switch } from "./Switch.js";
 export { Text } from "./Text.js";
 export { TextField } from "./TextField.js";
