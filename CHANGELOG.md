@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.3
+
+### Patch Changes
+
+- fffed78: Add 'clearable' prop for Select
+
 ## 0.7.2
 
 ### Patch Changes
