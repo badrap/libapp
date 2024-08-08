@@ -14,6 +14,7 @@ type SelectProps = {
   value?: string;
   options: SelectOption[];
   action?: Json;
+  clearable?: boolean;
   disabled?: boolean;
   required?: boolean;
   placeholder?: string;
