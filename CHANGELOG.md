@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.4
+
+### Patch Changes
+
+- c91bc5a: Fix Disclosure export
+
 ## 0.7.3
 
 ### Patch Changes
