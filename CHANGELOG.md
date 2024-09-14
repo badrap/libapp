@@ -1,5 +1,13 @@
 # @badrap/libapp
 
+## 0.7.3
+
+### Patch Changes
+
+- fffed78: Add 'clearable' prop for Select
+- 454727e: Add a Disclosure component
+- beeb0fb: Add a "lg" size for Text
+
 ## 0.7.2
 
 ### Patch Changes
