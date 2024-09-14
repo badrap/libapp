@@ -4,6 +4,7 @@ export { Button } from "./Button.js";
 export { Card } from "./Card.js";
 export { Checkbox } from "./Checkbox.js";
 export { CopyButton } from "./CopyButton.js";
+export { Disclosure } from "./Disclosure.js";
 export { Divider } from "./Divider.js";
 export { DownloadButton } from "./DownloadButton.js";
 export { Flex } from "./Flex.js";
