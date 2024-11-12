@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.7.5
+
+### Patch Changes
+
+- 64bca46: Remove display="inline" support from ui/experimental/Box
+- 6f91d63: Add lineClamp proprety for ui/experimental/Box
+
 ## 0.7.4
 
 ### Patch Changes
