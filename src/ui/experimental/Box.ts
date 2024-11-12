@@ -17,6 +17,7 @@ type BoxProps = {
   flexBasis?: Responsive<string>;
   flexGrow?: Responsive<string>;
   flexShrink?: Responsive<string>;
+  lineClamp?: number | string;
   display?: Responsive<"none" | "block" | "inline-block">;
   children?: UiNode;
 };
