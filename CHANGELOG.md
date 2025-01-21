@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.6
+
+### Patch Changes
+
+- af37424: Update dependencies
+
 ## 0.7.5
 
 ### Patch Changes
