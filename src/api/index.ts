@@ -138,10 +138,11 @@ export class API<
 
   async updateInstallation(
     installationId: string,
-    callback: (installation: Installation<InstallationState>) => MaybePromise<{
-      assets?: Asset[];
-      state?: InstallationState;
-    } | void>,
+    callback: (
+      installation: Installation<InstallationState>,
+    ) => MaybePromise<
+      { assets?: Asset[]; state?: InstallationState } | undefined
+    >,
     options?: {
       maxRetries?: number;
     },
@@ -165,7 +166,7 @@ export class API<
         }),
       });
 
-      const patch = await callback(JSON.parse(JSON.stringify(body)));
+      const patch = await callback(structuredClone(body));
       if (!patch) {
         return body;
       }
@@ -178,7 +179,7 @@ export class API<
         await this.client.request({
           method: "PATCH",
           path: ["installations", installationId],
-          headers: { "if-match": etag || "*" },
+          headers: { "if-match": etag ?? "*" },
           json: patch,
         });
       } catch (err) {

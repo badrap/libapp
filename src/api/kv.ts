@@ -183,7 +183,7 @@ class AtomicOperation {
         ({ versionstamp }) => {
           return { ok: true, versionstamp };
         },
-        (err) => {
+        (err: unknown) => {
           if (err instanceof HTTPError && err.statusCode === 409) {
             return { ok: false };
           }

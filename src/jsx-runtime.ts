@@ -10,8 +10,8 @@ export { UiNode, FunctionalComponent, Fragment };
 
 type ClassList = string | Record<string, boolean> | ClassList[];
 
-type JSXFunc = <T extends FunctionalComponent | keyof JSX.IntrinsicElements>(
-  type: T,
+type JSXFunc = (
+  type: FunctionalComponent | keyof JSX.IntrinsicElements,
   props: Record<string, unknown>,
 ) => UiNode;
 

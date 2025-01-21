@@ -19,7 +19,7 @@ export type UiNode =
       children?: UiNode;
     };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type FunctionalComponent<P extends Record<string, unknown> = {}> = (
   props: P,
 ) => UiNode;
@@ -64,6 +64,6 @@ export function element(
 
 export type Breakpoint = "base" | "sm" | "md" | "lg";
 
-export type Responsive<T> = T | { [K in Breakpoint]?: T };
+export type Responsive<T> = T | Partial<Record<Breakpoint, T>>;
 
 export type Space = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";

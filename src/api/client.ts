@@ -17,10 +17,12 @@ type RequestOptions<T extends Type> = {
   responseType?: T;
 };
 
+const PATH_COMPONENT = /^[a-z0-9_-]+$/;
+
 function joinPath(path: string[]): string {
   return path
     .map((component) => {
-      if (!component.match(/^[a-z0-9_-]{1,}$/i)) {
+      if (!PATH_COMPONENT.test(component)) {
         throw new Error("invalid path component");
       }
       return encodeURIComponent(component);
