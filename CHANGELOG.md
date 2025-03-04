@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.7
+
+### Patch Changes
+
+- b3e27af: Add support for Switch component descriptions
+
 ## 0.7.6
 
 ### Patch Changes
