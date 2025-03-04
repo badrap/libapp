@@ -13,9 +13,12 @@ type SwitchProps = {
   name?: string;
   /**
    * The text label associated with the switch.
-   * Improves usability and accessibility by providing context for the switch.
    */
   label?: string;
+  /**
+   * The text description associated with the switch.
+   */
+  description?: string;
   /**
    * If defined (i.e. not `undefined`), toggling the switch submits the `action`
    * value with client input state to the UI endpoint.
