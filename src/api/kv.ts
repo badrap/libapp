@@ -12,8 +12,24 @@ type KvEntryMaybe<T> =
 type AtomicCheck = { key: KvKey; versionstamp: string | null };
 
 type KvMutation =
-  | { type: "set"; key: KvKey; value: unknown; expireIn?: number }
-  | { type: "delete"; key: KvKey };
+  | {
+      type: "set";
+      key: KvKey;
+      value: unknown;
+      expireIn?: number;
+    }
+  | {
+      type: "delete";
+      key: KvKey;
+    }
+  | {
+      type: "enqueue";
+      value: unknown;
+      pathname?: string;
+      delay?: number;
+      keysIfUndelivered?: KvKey[];
+      backoffSchedule?: number[];
+    };
 
 type KvCommitResult = { ok: true; versionstamp: string };
 
@@ -152,6 +168,27 @@ class AtomicOperation {
     return this;
   }
 
+  /** @experimental */
+  enqueue(
+    value: unknown,
+    options?: {
+      pathname?: string;
+      delay?: number;
+      keysIfUndelivered?: KvKey[];
+      backoffSchedule?: number[];
+    },
+  ): this {
+    this._mutations.push({
+      type: "enqueue",
+      value,
+      pathname: options?.pathname,
+      delay: options?.delay,
+      keysIfUndelivered: options?.keysIfUndelivered,
+      backoffSchedule: options?.backoffSchedule,
+    });
+    return this;
+  }
+
   mutate(...mutations: KvMutation[]): this {
     for (const mutation of mutations) {
       switch (mutation.type) {
@@ -161,6 +198,10 @@ class AtomicOperation {
         }
         case "delete": {
           this.delete(mutation.key);
+          break;
+        }
+        case "enqueue": {
+          this.enqueue(mutation.value, mutation);
           break;
         }
       }
