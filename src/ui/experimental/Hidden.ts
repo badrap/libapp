@@ -1,4 +1,4 @@
-import { UiNode, element, Breakpoint } from "../internal.js";
+import { type UiNode, element, type Breakpoint } from "../internal.js";
 
 type HiddenProps = {
   after?: Breakpoint;

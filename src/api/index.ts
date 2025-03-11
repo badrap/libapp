@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import { HTTPError, Client, ClientConfig } from "./client.js";
+import { HTTPError, Client, type ClientConfig } from "./client.js";
 import { Kv } from "./kv.js";
 
 export { HTTPError };

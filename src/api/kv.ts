@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import { Client, HTTPError } from "./client.js";
+import { type Client, HTTPError } from "./client.js";
 
 type KvKey = (number | string | boolean)[];
 

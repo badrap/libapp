@@ -1,4 +1,9 @@
-import { Json, Responsive, UiNode, element } from "../internal.js";
+import {
+  type Json,
+  type Responsive,
+  type UiNode,
+  element,
+} from "../internal.js";
 
 type SelectOption =
   | string

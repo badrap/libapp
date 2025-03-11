@@ -52,6 +52,12 @@ export default [
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { fixStyle: "inline-type-imports" },
+      ],
+      "@typescript-eslint/no-import-type-side-effects": "error",
     },
   },
 ];

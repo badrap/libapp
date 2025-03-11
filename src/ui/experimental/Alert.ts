@@ -1,4 +1,4 @@
-import { UiNode, element } from "../internal.js";
+import { type UiNode, element } from "../internal.js";
 
 type AlertProps = {
   /**

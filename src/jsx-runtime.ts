@@ -1,12 +1,13 @@
 import {
-  Json,
-  UiNode,
-  FunctionalComponent,
+  type Json,
+  type UiNode,
+  type FunctionalComponent,
   Fragment,
   element,
 } from "./ui/internal.js";
 
-export { UiNode, FunctionalComponent, Fragment };
+export type { UiNode, FunctionalComponent };
+export { Fragment };
 
 type ClassList = string | Record<string, boolean> | ClassList[];
 

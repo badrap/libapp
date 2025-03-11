@@ -1,4 +1,9 @@
-import { Responsive, Space, UiNode, element } from "../internal.js";
+import {
+  type Responsive,
+  type Space,
+  type UiNode,
+  element,
+} from "../internal.js";
 
 type FlexProps = {
   width?: Responsive<string>;

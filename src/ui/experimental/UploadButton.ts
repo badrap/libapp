@@ -1,4 +1,9 @@
-import { Json, UiNode, element, Responsive } from "../internal.js";
+import {
+  type Json,
+  type UiNode,
+  element,
+  type Responsive,
+} from "../internal.js";
 
 type UploadButtonProps = {
   name: string;

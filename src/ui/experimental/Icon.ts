@@ -1,4 +1,4 @@
-import { Responsive, UiNode, element } from "../internal.js";
+import { type Responsive, type UiNode, element } from "../internal.js";
 
 type IconProps = {
   icon: `material-symbols:${string}`;

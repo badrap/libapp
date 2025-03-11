@@ -1,4 +1,4 @@
-import { Json, UiNode, element } from "../internal.js";
+import { type Json, type UiNode, element } from "../internal.js";
 
 type SwitchProps = {
   /**
