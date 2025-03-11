@@ -1,6 +1,6 @@
 {
   "name": "@badrap/libapp",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "description": "TypeScript helpers for creating Badrap apps",
   "repository": {
     "type": "git",
