@@ -1,5 +1,6 @@
 export { Alert } from "./Alert.js";
 export { Box } from "./Box.js";
+export { Badge } from "./Badge.js";
 export { Button } from "./Button.js";
 export { Card } from "./Card.js";
 export { Checkbox } from "./Checkbox.js";
