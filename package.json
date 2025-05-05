@@ -38,17 +38,17 @@
   "homepage": "https://github.com/badrap/libapp#readme",
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.28.1",
+    "@changesets/cli": "^2.29.3",
     "@eslint/js": "^9.21.0",
-    "@types/node": "^22.13.10",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
+    "@types/node": "^22.15.9",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.4.0",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.1"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0"
   },
   "dependencies": {
-    "@badrap/valita": "^0.4.3"
+    "@badrap/valita": "^0.4.4"
   }
 }
