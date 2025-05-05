@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.7.9
+
+### Patch Changes
+
+- e8dc8e8: Add an experimental Badge component
+
 ## 0.7.8
 
 ### Patch Changes
