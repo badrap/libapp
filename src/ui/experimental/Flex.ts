@@ -3,7 +3,7 @@ import {
   type Space,
   type UiNode,
   element,
-} from "../internal.js";
+} from "../internal.ts";
 
 type FlexProps = {
   width?: Responsive<string>;

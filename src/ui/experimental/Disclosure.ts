@@ -1,4 +1,4 @@
-import { type UiNode, element, type Responsive } from "../internal.js";
+import { type UiNode, element, type Responsive } from "../internal.ts";
 
 interface DisclosureProps {
   /**

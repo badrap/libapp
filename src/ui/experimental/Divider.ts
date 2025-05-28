@@ -1,4 +1,4 @@
-import { type Responsive, type UiNode, element } from "../internal.js";
+import { type Responsive, type UiNode, element } from "../internal.ts";
 
 type DividerProps = {
   orientation?: Responsive<"horizontal" | "vertical">;

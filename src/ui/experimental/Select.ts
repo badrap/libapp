@@ -3,7 +3,7 @@ import {
   type Responsive,
   type UiNode,
   element,
-} from "../internal.js";
+} from "../internal.ts";
 
 type SelectOption =
   | string

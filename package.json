@@ -1,5 +1,6 @@
 {
   "name": "@badrap/libapp",
+  "type": "commonjs",
   "version": "0.7.9",
   "description": "TypeScript helpers for creating Badrap apps",
   "repository": {
@@ -23,7 +24,7 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0 .",
-    "typecheck": "tsc --skipLibCheck --noEmit",
+    "typecheck": "tsc --noEmit",
     "build": "rm -rf dist/* && tsc",
     "prepack": "npm run build",
     "changeset": "changeset",

@@ -1,6 +1,6 @@
 import * as v from "@badrap/valita";
-import { HTTPError, Client, type ClientConfig } from "./client.js";
-import { Kv } from "./kv.js";
+import { HTTPError, Client, type ClientConfig } from "./client.ts";
+import { Kv } from "./kv.ts";
 
 export { HTTPError };
 

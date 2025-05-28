@@ -3,7 +3,7 @@ import {
   type UiNode,
   element,
   type Responsive,
-} from "../internal.js";
+} from "../internal.ts";
 
 type ButtonProps = {
   variant?: "default" | "primary" | "danger";

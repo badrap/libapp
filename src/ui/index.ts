@@ -1,1 +1,1 @@
-export type { UiNode, Fragment } from "./internal.js";
+export type { UiNode, Fragment } from "./internal.ts";

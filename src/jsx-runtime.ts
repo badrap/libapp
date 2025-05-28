@@ -4,7 +4,7 @@ import {
   type FunctionalComponent,
   Fragment,
   element,
-} from "./ui/internal.js";
+} from "./ui/internal.ts";
 
 export type { UiNode, FunctionalComponent };
 export { Fragment };
