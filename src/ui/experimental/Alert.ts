@@ -2,10 +2,10 @@ import { type UiNode, element } from "../internal.js";
 
 type AlertProps = {
   /**
-   * The type of alert. Affects e.g. its visual styling.
+   * The overall tone of alert. Affects e.g. its visual styling.
    * Default value: "info".
    */
-  type?: "info" | "success" | "warning" | "error";
+  tone?: "info" | "success" | "caution" | "critical";
   /**
    * A title or heading for the alert.
    * Optional, but recommended for providing a concise summary of the alert's content.
@@ -26,7 +26,7 @@ type AlertProps = {
  *
  * @example
  * ```tsx
- * <Alert type="error" title="Something went wrong">
+ * <Alert tone="critical" title="Something went wrong">
  *   An error occurred while processing your request.
  * </Alert>
  * ```
