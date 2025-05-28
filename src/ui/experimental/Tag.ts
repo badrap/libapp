@@ -1,8 +1,8 @@
 import { type UiNode, element } from "../internal.js";
 
-type BadgeProps = {
+type TagProps = {
   /**
-   * The overall tone of the badge. Mainly affects the color.
+   * The overall tone of the tag. Mainly affects the color.
    * Default value: "neutral".
    */
   tone?: "neutral" | "info" | "success" | "caution" | "critical";
@@ -25,20 +25,20 @@ type BadgeProps = {
    */
   description?: string;
   /**
-   * The main content - the "value" - of the badge.
+   * The main content - the "value" - of the tag.
    */
   children?: UiNode;
 };
 
 /**
- * A badge component that describes e.g. the value of a variable.
+ * A tag component that describes e.g. the value of a variable.
  *
  * A label and description can be provided to give more context
  * (for example the name and meaning of the variable, respectively).
  *
  * @example
  * ```tsx
- * <Badge
+ * <Tag
  *  tone="success"
  *  icon="material-symbols:check"
  *  label="Status"
@@ -49,6 +49,6 @@ type BadgeProps = {
  * ```
  *
  */
-export function Badge(props: BadgeProps): UiNode {
-  return element("ui-badge", props);
+export function Tag(props: TagProps): UiNode {
+  return element("ui-tag", props);
 }
