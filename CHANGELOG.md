@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.8.0
+
+### Minor Changes
+
+- a98a23e: Rename Alert component's "type" prop to "tone", with similar semantics to the Tag component.
+- 061b531: Rename Badge component to Tag
+
 ## 0.7.9
 
 ### Patch Changes
