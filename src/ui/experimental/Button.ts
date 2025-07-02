@@ -6,11 +6,13 @@ import {
 } from "../internal.ts";
 
 type ButtonProps = {
+  name?: string;
+  value?: Json;
+  action?: Json;
   variant?: "default" | "primary" | "danger";
   size?: Responsive<"sm" | "md">;
   iconSide?: "start" | "end";
   disabled?: boolean;
-  action?: Json;
   submit?: boolean;
   children?: UiNode;
 } & (
