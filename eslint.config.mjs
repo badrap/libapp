@@ -1,11 +1,13 @@
 import eslint from "@eslint/js";
+import { globalIgnores } from "eslint/config";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
-export default [
+export default tseslint.config(
+  globalIgnores(["dist/"]),
   eslint.configs.recommended,
-  ...tseslint.configs.strictTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
+  tseslint.configs.strictTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
   prettierRecommended,
   {
     linterOptions: {
@@ -60,4 +62,4 @@ export default [
       "@typescript-eslint/no-import-type-side-effects": "error",
     },
   },
-];
+);
