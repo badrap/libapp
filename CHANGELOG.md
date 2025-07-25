@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.8.1
+
+### Patch Changes
+
+- 90a59e1: Deprecate lineClamp and flexBasis properties from Box and Flex
+- d31fbdf: feat(ui/experimental/Button): allow name and value props for Buttons
+
 ## 0.8.0
 
 ### Minor Changes
