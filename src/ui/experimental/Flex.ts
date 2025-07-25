@@ -19,9 +19,8 @@ type FlexProps = {
   pb?: Responsive<Space>;
   pl?: Responsive<Space>;
   pr?: Responsive<Space>;
-  flexBasis?: Responsive<string>;
-  flexGrow?: Responsive<string>;
-  flexShrink?: Responsive<string>;
+  flexGrow?: Responsive<"0" | "1">;
+  flexShrink?: Responsive<"0" | "1">;
 
   display?: Responsive<"none" | "flex" | "inline-flex">;
   gap?: Responsive<Space>;
