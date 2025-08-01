@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.8.2
+
+### Patch Changes
+
+- b475e60: Publish npm packages using trusted publishing
+
 ## 0.8.1
 
 ### Patch Changes
