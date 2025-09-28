@@ -23,13 +23,17 @@
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },
   "scripts": {
-    "lint": "eslint --max-warnings 0 .",
+    "fix": "node --run fix:prettier && node --run fix:eslint",
+    "fix:prettier": "prettier --write --cache .",
+    "fix:eslint": "eslint --max-warnings=0 --fix --cache --cache-location=.cache/eslint .",
+    "lint": "node --run lint:prettier && node --run lint:eslint",
+    "lint:prettier": "prettier --check --cache .",
+    "lint:eslint": "eslint --max-warnings=0 --cache --cache-location=.cache/eslint .",
     "typecheck": "tsc --noEmit",
     "build": "rm -rf dist/* && tsc",
-    "prepack": "npm run build",
     "changeset": "changeset",
     "bump": "changeset version",
-    "release": "npm run build && changeset publish"
+    "tag": "changeset tag"
   },
   "author": "Joachim Viide <jviide@iki.fi>",
   "license": "MIT",
@@ -39,17 +43,15 @@
   "homepage": "https://github.com/badrap/libapp#readme",
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.5",
-    "@eslint/js": "^9.32.0",
-    "@types/node": "^24.1.0",
-    "eslint": "^9.32.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.3",
+    "@changesets/cli": "^2.29.7",
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.5.2",
+    "eslint": "^9.36.0",
     "prettier": "^3.6.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1"
   },
   "dependencies": {
-    "@badrap/valita": "^0.4.5"
+    "@badrap/valita": "^0.4.6"
   }
 }

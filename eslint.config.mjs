@@ -1,14 +1,13 @@
 import eslint from "@eslint/js";
-import { globalIgnores } from "eslint/config";
-import prettierRecommended from "eslint-plugin-prettier/recommended";
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
+import { globalIgnores } from "eslint/config";
 
-export default tseslint.config(
+export default defineConfig(
   globalIgnores(["dist/"]),
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-  prettierRecommended,
   {
     linterOptions: {
       reportUnusedDisableDirectives: true,
@@ -22,7 +21,6 @@ export default tseslint.config(
       },
     },
     rules: {
-      "prettier/prettier": "warn",
       eqeqeq: ["error", "smart"],
       "linebreak-style": ["error", "unix"],
       "no-console": "error",
