@@ -35,7 +35,9 @@ type KvCommitResult = { ok: true; versionstamp: string };
 
 type KvCommitError = { ok: false };
 
-type KvListSelector = { prefix: KvKey };
+type KvListSelector =
+  | { prefix: KvKey; start?: KvKey; end?: KvKey }
+  | { start: KvKey; end: KvKey };
 
 type KvListOptions = { limit?: number };
 
@@ -109,14 +111,21 @@ export class Kv {
     options?: KvListOptions,
   ): KvListIterator<unknown> {
     let { limit } = options ?? {};
-    let cursor: undefined | string = undefined;
+    const { prefix, start, end } = selector as {
+      prefix?: KvKey;
+      start?: KvKey;
+      end?: KvKey;
+    };
 
+    let cursor: undefined | string = undefined;
     while (limit === undefined || limit > 0) {
       const response: v.Infer<typeof ListResponse> = await this.client.request({
         path: ["kv", "list"],
         method: "POST",
         json: {
-          prefix: selector.prefix,
+          prefix,
+          start,
+          end,
           limit: limit === undefined ? 100 : Math.min(100, limit),
           cursor,
         },
