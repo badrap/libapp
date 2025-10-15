@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.8.4
+
+### Patch Changes
+
+- 73519f9: Add `start` and `end` parameters to KV list selectors
+
 ## 0.8.3
 
 ### Patch Changes
