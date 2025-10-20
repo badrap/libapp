@@ -17,6 +17,7 @@ export { Link } from "./Link.ts";
 export { LinkButton } from "./LinkButton.ts";
 export { List } from "./List.ts";
 export { Redirect } from "./Redirect.ts";
+export { RelativeTime } from "./RelativeTime.ts";
 export { Select } from "./Select.ts";
 export { Switch } from "./Switch.ts";
 export { Text } from "./Text.ts";
