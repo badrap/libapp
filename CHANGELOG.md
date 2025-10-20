@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.8.5
+
+### Patch Changes
+
+- abd0522: Add RelativeTime component
+
 ## 0.8.4
 
 ### Patch Changes
