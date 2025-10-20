@@ -29,8 +29,8 @@ type RelativeTimeProps = {
  *
  * @example
  * ```tsx
- * <RelativeTime dateTime="2024-01-01T12:00:00Z" />
- * <RelativeTime dateTime={new Date()} tense="past" />
+ * <RelativeTime dateTime={new Date("2999-01-01T12:00:00Z")} />
+ * <RelativeTime dateTime={new Date("2025-10-20 17:36:00+03:00")} tense="past" />
  * ```
  */
 export function RelativeTime(props: RelativeTimeProps): UiNode {
