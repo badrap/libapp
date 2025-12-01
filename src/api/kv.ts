@@ -39,7 +39,7 @@ type KvListSelector =
   | { prefix: KvKey; start?: KvKey; end?: KvKey }
   | { start: KvKey; end: KvKey };
 
-type KvListOptions = { limit?: number };
+type KvListOptions = { limit?: number; reverse?: boolean; batchSize?: number };
 
 type KvListIterator<T> = AsyncIterableIterator<KvEntry<T>>;
 
@@ -110,7 +110,9 @@ export class Kv {
     selector: KvListSelector,
     options?: KvListOptions,
   ): KvListIterator<unknown> {
-    let { limit } = options ?? {};
+    const { reverse = false, batchSize = 100 } = options ?? {};
+    let limit = options?.limit ?? Infinity;
+
     const { prefix, start, end } = selector as {
       prefix?: KvKey;
       start?: KvKey;
@@ -118,7 +120,7 @@ export class Kv {
     };
 
     let cursor: undefined | string = undefined;
-    while (limit === undefined || limit > 0) {
+    while (limit > 0) {
       const response: v.Infer<typeof ListResponse> = await this.client.request({
         path: ["kv", "list"],
         method: "POST",
@@ -126,21 +128,21 @@ export class Kv {
           prefix,
           start,
           end,
-          limit: limit === undefined ? 100 : Math.min(100, limit),
+          limit: Math.min(limit, batchSize),
+          reverse,
           cursor,
         },
         responseType: ListResponse,
       });
 
       yield* response.entries.slice(0, limit);
-      if (limit !== undefined) {
-        limit -= response.entries.length;
-      }
 
       cursor = response.cursor;
       if (cursor === undefined) {
         break;
       }
+
+      limit -= response.entries.length;
     }
   }
 
