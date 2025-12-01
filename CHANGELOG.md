@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.8.6
+
+### Patch Changes
+
+- 0b3735a: Include error codes for API errors
+- 9aac85a: Add support for reverse ordering and batchSize for KV list operations
+
 ## 0.8.5
 
 ### Patch Changes
