@@ -36,8 +36,10 @@ type KvCommitResult = { ok: true; versionstamp: string };
 type KvCommitError = { ok: false };
 
 type KvListSelector =
-  | { prefix: KvKey; start?: KvKey; end?: KvKey }
-  | { start: KvKey; end: KvKey };
+  | { prefix: KvKey; start?: undefined; end?: undefined }
+  | { prefix: KvKey; start: KvKey; end?: undefined }
+  | { prefix: KvKey; start?: undefined; end: KvKey }
+  | { prefix?: undefined; start: KvKey; end: KvKey };
 
 type KvListOptions = { limit?: number; reverse?: boolean; batchSize?: number };
 
