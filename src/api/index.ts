@@ -7,7 +7,8 @@ export { HTTPError };
 export class UpdateFailed extends Error {
   constructor() {
     super("installation update failed");
-    Object.setPrototypeOf(this, new.target.prototype);
+
+    this.name = "UpdateFailed";
   }
 }
 
@@ -41,21 +42,21 @@ interface Config<InstallationState> extends ClientConfig {
 export class API<
   InstallationState extends Record<string, unknown> = Record<string, unknown>,
 > {
-  private readonly client: Client;
-  private readonly stateType: v.Type<InstallationState>;
+  readonly #client: Client;
+  readonly #stateType: v.Type<InstallationState>;
   readonly kv: Kv;
 
   constructor(config: Config<InstallationState>) {
-    this.client = new Client(config);
-    this.stateType =
+    this.#client = new Client(config);
+    this.#stateType =
       config.stateType ?? (v.record() as v.Type<InstallationState>);
-    this.kv = new Kv(this.client);
+    this.kv = new Kv(this.#client);
   }
 
   async checkAuthToken(
     token: string,
   ): Promise<{ installationId: string; sessionId: string; expiresAt: number }> {
-    const result = await this.client.request({
+    const result = await this.#client.request({
       method: "POST",
       path: ["token"],
       json: { token },
@@ -78,7 +79,7 @@ export class API<
     removed: boolean;
     owner?: { type: "team"; name: string } | { type: "user"; email: string };
   }> {
-    yield* await this.client.request({
+    yield* await this.#client.request({
       method: "GET",
       path: ["installations"],
       responseType: v.array(
@@ -104,7 +105,7 @@ export class API<
       clientState?: Record<string, unknown>;
     } = {},
   ): Promise<string> {
-    return this.client.request({
+    return this.#client.request({
       method: "POST",
       path: ["installations", installationId, "callbacks"],
       json: {
@@ -119,13 +120,13 @@ export class API<
   async getInstallation(
     installationId: string,
   ): Promise<Installation<InstallationState>> {
-    return this.client.request({
+    return this.#client.request({
       method: "GET",
       path: ["installations", installationId],
       responseType: v.object({
         id: v.string(),
         removed: v.boolean(),
-        state: this.stateType,
+        state: this.#stateType,
         owner: v
           .union(
             v.object({ type: v.literal("team"), name: v.string() }),
@@ -150,13 +151,13 @@ export class API<
     const { maxRetries = Infinity } = options ?? {};
 
     for (let i = 0; i <= maxRetries; i++) {
-      const { body, etag } = await this.client.requestWithEtag({
+      const { body, etag } = await this.#client.requestWithEtag({
         method: "GET",
         path: ["installations", installationId],
         responseType: v.object({
           id: v.string(),
           removed: v.boolean(),
-          state: this.stateType,
+          state: this.#stateType,
           owner: v
             .union(
               v.object({ type: v.literal("team"), name: v.string() }),
@@ -176,7 +177,7 @@ export class API<
       }
 
       try {
-        await this.client.request({
+        await this.#client.request({
           method: "PATCH",
           path: ["installations", installationId],
           headers: { "if-match": etag ?? "*" },
@@ -195,7 +196,7 @@ export class API<
   }
 
   async removeInstallation(installationId: string): Promise<void> {
-    await this.client.request({
+    await this.#client.request({
       method: "DELETE",
       path: ["installations", installationId],
     });
@@ -204,7 +205,7 @@ export class API<
   async *listOwnerAssets(
     installationId: string,
   ): AsyncIterable<{ type: "ip" | "email" | "domain"; value: string }> {
-    yield* await this.client.request({
+    yield* await this.#client.request({
       method: "GET",
       path: ["installations", installationId, "owner", "assets"],
       responseType: v.array(
@@ -229,7 +230,7 @@ export class API<
     },
   ): Promise<void> {
     try {
-      await this.client.request({
+      await this.#client.request({
         method: "POST",
         path: ["feeds"],
         json: {
@@ -243,7 +244,7 @@ export class API<
       if (!(err instanceof HTTPError) || err.statusCode !== 409) {
         throw err;
       }
-      await this.client.request({
+      await this.#client.request({
         method: "PATCH",
         path: ["feeds", name],
         headers: { "if-match": "*" },
@@ -261,7 +262,7 @@ export class API<
     feedName: string,
     events: Event[],
   ): Promise<void> {
-    await this.client.request({
+    await this.#client.request({
       method: "POST",
       path: ["installations", installationId, "feeds", feedName, "events"],
       json: events,

@@ -10,13 +10,15 @@ type ListItemProps = {
   children?: UiNode;
 };
 
-export function List(props: ListProps): UiNode {
-  return element("ui-list", props);
+export interface List {
+  (props: ListProps): UiNode;
+  Item: (props: ListItemProps) => UiNode;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace List {
-  export const Item = function ListItem(props: ListItemProps): UiNode {
-    return element("ui-list-item", props);
-  };
-}
+export const List: List = function List(props: ListProps): UiNode {
+  return element("ui-list", props);
+};
+
+List.Item = function ListItem(props: ListItemProps): UiNode {
+  return element("ui-list-item", props);
+};

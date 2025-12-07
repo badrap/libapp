@@ -3,13 +3,15 @@ import * as v from "@badrap/valita";
 const json = JSON.stringify;
 
 export class HTTPError extends Error {
-  constructor(
-    readonly statusCode: number,
-    readonly statusText: string,
-  ) {
+  readonly statusCode: number;
+  readonly statusText: string;
+
+  constructor(statusCode: number, statusText: string) {
     super();
 
     this.name = "HTTPError";
+    this.statusCode = statusCode;
+    this.statusText = statusText;
   }
 
   get message() {
@@ -25,15 +27,20 @@ const APIErrorBody = v.object({
 });
 
 export class APIError extends HTTPError {
+  readonly errorCode: string;
+  readonly errorReason: string | undefined;
+
   constructor(
     statusCode: number,
     statusText: string,
-    readonly errorCode: string,
-    readonly errorReason?: string,
+    errorCode: string,
+    errorReason: string | undefined,
   ) {
     super(statusCode, statusText);
 
     this.name = "APIError";
+    this.errorCode = errorCode;
+    this.errorReason = errorReason;
   }
 
   get message() {
@@ -77,30 +84,30 @@ export interface ClientConfig {
 }
 
 export class Client {
-  private readonly apiToken: string;
-  private readonly baseUrl: URL;
-  private readonly userAgent: string;
+  readonly #apiToken: string;
+  readonly #baseUrl: URL;
+  readonly #userAgent: string;
 
   constructor(config: ClientConfig) {
-    this.apiToken = config.token;
-    this.baseUrl = new URL(config.url);
-    this.userAgent = config.userAgent ?? "libapp";
+    this.#apiToken = config.token;
+    this.#baseUrl = new URL(config.url);
+    this.#userAgent = config.userAgent ?? "libapp";
   }
 
   async requestWithEtag<T extends v.Type>(
     options: RequestOptions<T>,
   ): Promise<{ body: v.Infer<T>; etag?: string }> {
-    const url = new URL(this.baseUrl);
+    const url = new URL(this.#baseUrl);
     url.pathname = `${url.pathname}/app/${joinPath(options.path)}`.replace(
       /\/{2,}/g,
       "/",
     );
 
     const headers = new Headers(options.headers);
-    headers.set("authorization", `Bearer ${this.apiToken}`);
+    headers.set("authorization", `Bearer ${this.#apiToken}`);
 
     if (!headers.has("user-agent")) {
-      headers.set("user-agent", this.userAgent);
+      headers.set("user-agent", this.#userAgent);
     }
 
     let body: null | string = null;

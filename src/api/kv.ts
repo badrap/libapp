@@ -66,7 +66,11 @@ const ListResponse = v.object({
 const CommitResponse = v.union(v.object({ versionstamp: v.string() }));
 
 export class Kv {
-  constructor(private readonly client: Client) {}
+  readonly #client: Client;
+
+  constructor(client: Client) {
+    this.#client = client;
+  }
 
   async set(
     key: KvKey,
@@ -95,7 +99,7 @@ export class Kv {
   async getMany<T extends readonly unknown[]>(
     keys: [...{ [K in keyof T]: KvKey }],
   ): Promise<{ [K in keyof T]: KvEntryMaybe<unknown> }> {
-    const response = await this.client.request({
+    const response = await this.#client.request({
       method: "POST",
       path: ["kv", "get"],
       json: { keys },
@@ -122,19 +126,21 @@ export class Kv {
 
     let cursor: undefined | string = undefined;
     while (limit > 0) {
-      const response: v.Infer<typeof ListResponse> = await this.client.request({
-        path: ["kv", "list"],
-        method: "POST",
-        json: {
-          prefix,
-          start,
-          end,
-          limit: Math.min(limit, batchSize),
-          reverse,
-          cursor,
+      const response: v.Infer<typeof ListResponse> = await this.#client.request(
+        {
+          path: ["kv", "list"],
+          method: "POST",
+          json: {
+            prefix,
+            start,
+            end,
+            limit: Math.min(limit, batchSize),
+            reverse,
+            cursor,
+          },
+          responseType: ListResponse,
         },
-        responseType: ListResponse,
-      });
+      );
 
       yield* response.entries.slice(0, limit);
 
@@ -148,30 +154,33 @@ export class Kv {
   }
 
   atomic(): AtomicOperation {
-    return new AtomicOperation(this.client);
+    return new AtomicOperation(this.#client);
   }
 }
 
 class AtomicOperation {
-  private readonly _checks: AtomicCheck[] = [];
-  private readonly _mutations: KvMutation[] = [];
+  readonly #client: Client;
+  readonly #checks: AtomicCheck[] = [];
+  readonly #mutations: KvMutation[] = [];
 
-  constructor(private readonly base: Client) {}
+  constructor(client: Client) {
+    this.#client = client;
+  }
 
   check(...checks: AtomicCheck[]): this {
     for (const { key, versionstamp } of checks) {
-      this._checks.push({ key, versionstamp });
+      this.#checks.push({ key, versionstamp });
     }
     return this;
   }
 
   delete(key: KvKey): this {
-    this._mutations.push({ type: "delete", key });
+    this.#mutations.push({ type: "delete", key });
     return this;
   }
 
   set(key: KvKey, value: unknown, options?: { expireIn?: number }): this {
-    this._mutations.push({
+    this.#mutations.push({
       type: "set",
       key,
       value,
@@ -190,7 +199,7 @@ class AtomicOperation {
       backoffSchedule?: number[];
     },
   ): this {
-    this._mutations.push({
+    this.#mutations.push({
       type: "enqueue",
       value,
       pathname: options?.pathname,
@@ -222,13 +231,13 @@ class AtomicOperation {
   }
 
   async commit(): Promise<KvCommitResult | KvCommitError> {
-    return this.base
+    return this.#client
       .request({
         method: "POST",
         path: ["kv", "mutate"],
         json: {
-          checks: this._checks,
-          mutations: this._mutations,
+          checks: this.#checks,
+          mutations: this.#mutations,
         },
         responseType: CommitResponse,
       })

@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2023", "DOM", "DOM.AsyncIterable"],
-    "module": "Node18",
-    "moduleResolution": "node16",
+    "target": "es2022",
+    "module": "node18",
+    "types": [],
     "libReplacement": false,
     "declaration": true,
     "sourceMap": true,
@@ -16,7 +15,8 @@
     "noUncheckedIndexedAccess": true,
     "isolatedDeclarations": true,
     "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true
   },
   "include": ["./src/**/*"]
 }

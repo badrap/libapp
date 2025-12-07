@@ -17,7 +17,6 @@ export default defineConfig(
         projectService: {
           allowDefaultProject: ["eslint.config.mjs"],
         },
-        tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
@@ -52,7 +51,23 @@ export default defineConfig(
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/no-namespace": ["error", { allowDeclarations: true }],
-      "@typescript-eslint/consistent-type-exports": "error",
+
+      // Ensure that type-only imports can be elided when Node.js's
+      // type stripping is used enabled and/or tsconfig enables
+      // "verbatimModuleSyntax".
+      //
+      // The consistent-type-imports and consistent-type-exports rules
+      // require type-only imports and export to be explicit.
+      //
+      // The no-import-type-side-effects rule disallows imports like
+      // `import { type A } from "a"` that may get transpiled into empty
+      // imports like `import {} from "a"`. If such an empty import is
+      // actually needed (for its side-effects) then declare it explicitly
+      // with `import "a"`.
+      "@typescript-eslint/consistent-type-exports": [
+        "error",
+        { fixMixedExportsWithInlineTypeSpecifier: true },
+      ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         { fixStyle: "inline-type-imports" },
