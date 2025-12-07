@@ -87,13 +87,12 @@ export class Kv {
 
   async get(key: KvKey): Promise<KvEntryMaybe<unknown>> {
     const [result] = await this.getMany([key]);
-    if (!result) {
-      throw new Error("expected an entry");
-    }
     return result;
   }
 
-  async getMany(keys: KvKey[]): Promise<KvEntryMaybe<unknown>[]> {
+  async getMany<T extends readonly unknown[]>(
+    keys: [...{ [K in keyof T]: KvKey }],
+  ): Promise<{ [K in keyof T]: KvEntryMaybe<unknown> }> {
     const response = await this.client.request({
       method: "POST",
       path: ["kv", "get"],
@@ -103,7 +102,7 @@ export class Kv {
     if (response.entries.length !== keys.length) {
       throw new Error("an unexpected number of result entries");
     }
-    return response.entries;
+    return response.entries as { [K in keyof T]: KvEntryMaybe<unknown> };
   }
 
   async *list(
