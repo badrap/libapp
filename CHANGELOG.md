@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.8.7
+
+### Patch Changes
+
+- e502d95: feat: Stricter type inference for getMany
+
 ## 0.8.6
 
 ### Patch Changes
