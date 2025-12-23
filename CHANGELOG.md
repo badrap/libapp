@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.9.1
+
+### Patch Changes
+
+- be39216: Set default KvEntry value type to unknown
+
 ## 0.9.0
 
 ### Minor Changes
