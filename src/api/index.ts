@@ -1,6 +1,7 @@
 import * as v from "@badrap/valita";
 import { HTTPError, APIError, Client, type ClientConfig } from "./client.ts";
 import { Kv } from "./kv.ts";
+import type * as KvTypes from "./kv.ts";
 
 export { HTTPError, APIError };
 
@@ -268,4 +269,30 @@ export class API<
       json: events,
     });
   }
+}
+
+export declare namespace API {
+  export type Kv = KvTypes.Kv;
+
+  export type KvKey = KvTypes.KvKey;
+
+  export type KvEntry<T> = KvTypes.KvEntry<T>;
+
+  export type KvEntryMaybe<T> = KvTypes.KvEntryMaybe<T>;
+
+  export type KvCheck = KvTypes.KvCheck;
+
+  export type KvMutation = KvTypes.KvMutation;
+
+  export type KvCommitResult = KvTypes.KvCommitResult;
+
+  export type KvCommitError = KvTypes.KvCommitError;
+
+  export type KvListSelector = KvTypes.KvListSelector;
+
+  export type KvListOptions = KvTypes.KvListOptions;
+
+  export type KvListIterator<T> = KvTypes.KvListIterator<T>;
+
+  export type KvAtomicOperation = KvTypes.KvAtomicOperation;
 }

@@ -1,17 +1,17 @@
 import * as v from "@badrap/valita";
 import { type Client, HTTPError } from "./client.ts";
 
-type KvKey = (number | string | boolean)[];
+export type KvKey = (number | string | boolean)[];
 
-type KvEntry<T> = { key: KvKey; value: T; versionstamp: string };
+export type KvEntry<T> = { key: KvKey; value: T; versionstamp: string };
 
-type KvEntryMaybe<T> =
+export type KvEntryMaybe<T> =
   | KvEntry<T>
   | { key: KvKey; value: null; versionstamp: null };
 
-type AtomicCheck = { key: KvKey; versionstamp: string | null };
+export type KvCheck = { key: KvKey; versionstamp: string | null };
 
-type KvMutation =
+export type KvMutation =
   | {
       type: "set";
       key: KvKey;
@@ -31,19 +31,23 @@ type KvMutation =
       backoffSchedule?: number[];
     };
 
-type KvCommitResult = { ok: true; versionstamp: string };
+export type KvCommitResult = { ok: true; versionstamp: string };
 
-type KvCommitError = { ok: false };
+export type KvCommitError = { ok: false };
 
-type KvListSelector =
+export type KvListSelector =
   | { prefix: KvKey; start?: undefined; end?: undefined }
   | { prefix: KvKey; start: KvKey; end?: undefined }
   | { prefix: KvKey; start?: undefined; end: KvKey }
   | { prefix?: undefined; start: KvKey; end: KvKey };
 
-type KvListOptions = { limit?: number; reverse?: boolean; batchSize?: number };
+export type KvListOptions = {
+  limit?: number;
+  reverse?: boolean;
+  batchSize?: number;
+};
 
-type KvListIterator<T> = AsyncIterableIterator<KvEntry<T>>;
+export type KvListIterator<T> = AsyncIterableIterator<KvEntry<T>>;
 
 const Key = v.array(v.union(v.string(), v.number(), v.boolean()));
 
@@ -155,21 +159,21 @@ export class Kv {
     }
   }
 
-  atomic(): AtomicOperation {
-    return new AtomicOperation(this.#client);
+  atomic(): KvAtomicOperation {
+    return new KvAtomicOperation(this.#client);
   }
 }
 
-class AtomicOperation {
+export class KvAtomicOperation {
   readonly #client: Client;
-  readonly #checks: AtomicCheck[] = [];
+  readonly #checks: KvCheck[] = [];
   readonly #mutations: KvMutation[] = [];
 
   constructor(client: Client) {
     this.#client = client;
   }
 
-  check(...checks: AtomicCheck[]): this {
+  check(...checks: KvCheck[]): this {
     for (const { key, versionstamp } of checks) {
       this.#checks.push({ key, versionstamp });
     }
