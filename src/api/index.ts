@@ -1,8 +1,8 @@
 import * as v from "@badrap/valita";
-import { HTTPError, Client, type ClientConfig } from "./client.ts";
+import { HTTPError, APIError, Client, type ClientConfig } from "./client.ts";
 import { Kv } from "./kv.ts";
 
-export { HTTPError };
+export { HTTPError, APIError };
 
 export class UpdateFailed extends Error {
   constructor() {
