@@ -131,9 +131,11 @@ export class Kv {
           path: ["kv", "list"],
           method: "POST",
           json: {
-            prefix,
-            start,
-            end,
+            selector: {
+              prefix,
+              start,
+              end,
+            },
             limit: Math.min(limit, batchSize),
             reverse,
             cursor,
