@@ -44,11 +44,11 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
-    "@eslint/js": "^9.39.1",
-    "eslint": "^9.39.1",
-    "prettier": "^3.7.3",
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.0"
+    "typescript-eslint": "^8.50.1"
   },
   "dependencies": {
     "@badrap/valita": "^0.4.6"
