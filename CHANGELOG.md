@@ -1,5 +1,18 @@
 # @badrap/libapp
 
+## 0.9.0
+
+### Minor Changes
+
+- 73cb6e6: Bump Node.js requirement to v20
+- 727d438: Change the format for KV.list selector
+- 7ea9b58: Switch to ESM-only
+
+### Patch Changes
+
+- 7729ea1: Expose API.Kv\* types
+- 9c8af72: Expose APIError
+
 ## 0.8.7
 
 ### Patch Changes
