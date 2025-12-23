@@ -276,9 +276,9 @@ export declare namespace API {
 
   export type KvKey = KvTypes.KvKey;
 
-  export type KvEntry<T> = KvTypes.KvEntry<T>;
+  export type KvEntry<T = unknown> = KvTypes.KvEntry<T>;
 
-  export type KvEntryMaybe<T> = KvTypes.KvEntryMaybe<T>;
+  export type KvEntryMaybe<T = unknown> = KvTypes.KvEntryMaybe<T>;
 
   export type KvCheck = KvTypes.KvCheck;
 
@@ -292,7 +292,7 @@ export declare namespace API {
 
   export type KvListOptions = KvTypes.KvListOptions;
 
-  export type KvListIterator<T> = KvTypes.KvListIterator<T>;
+  export type KvListIterator<T = unknown> = KvTypes.KvListIterator<T>;
 
   export type KvAtomicOperation = KvTypes.KvAtomicOperation;
 }
