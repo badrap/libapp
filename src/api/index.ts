@@ -79,8 +79,10 @@ export class API<
 
   async *listInstallations(): AsyncIterable<{
     id: string;
-    removed: boolean;
     owner?: { type: "team"; name: string } | { type: "user"; email: string };
+    status: "active" | "paused" | "uninstalled";
+    /** @deprecated Use status instead. */
+    removed: boolean;
   }> {
     yield* await this.#client.request({
       method: "GET",
@@ -88,13 +90,18 @@ export class API<
       responseType: v.array(
         v.object({
           id: v.string(),
-          removed: v.boolean(),
           owner: v
             .union(
               v.object({ type: v.literal("team"), name: v.string() }),
               v.object({ type: v.literal("user"), email: v.string() }),
             )
             .optional(),
+          status: v.union(
+            v.literal("active"),
+            v.literal("paused"),
+            v.literal("uninstalled"),
+          ),
+          removed: v.boolean(),
         }),
       ),
     });
@@ -128,12 +135,6 @@ export class API<
       path: ["installations", installationId],
       responseType: v.object({
         id: v.string(),
-        removed: v.boolean(),
-        status: v.union(
-          v.literal("active"),
-          v.literal("paused"),
-          v.literal("uninstalled"),
-        ),
         state: this.#stateType,
         owner: v
           .union(
@@ -141,6 +142,12 @@ export class API<
             v.object({ type: v.literal("user"), email: v.string() }),
           )
           .optional(),
+        status: v.union(
+          v.literal("active"),
+          v.literal("paused"),
+          v.literal("uninstalled"),
+        ),
+        removed: v.boolean(),
       }),
     });
   }
@@ -164,12 +171,6 @@ export class API<
         path: ["installations", installationId],
         responseType: v.object({
           id: v.string(),
-          removed: v.boolean(),
-          status: v.union(
-            v.literal("active"),
-            v.literal("paused"),
-            v.literal("uninstalled"),
-          ),
           state: this.#stateType,
           owner: v
             .union(
@@ -177,6 +178,12 @@ export class API<
               v.object({ type: v.literal("user"), email: v.string() }),
             )
             .optional(),
+          status: v.union(
+            v.literal("active"),
+            v.literal("paused"),
+            v.literal("uninstalled"),
+          ),
+          removed: v.boolean(),
         }),
       });
 
