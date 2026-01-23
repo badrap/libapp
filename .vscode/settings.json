@@ -10,6 +10,5 @@
     "dist": true,
     ".cache": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "prettier.trailingComma": "all"
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
