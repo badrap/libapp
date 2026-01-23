@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.9.3
+
+### Patch Changes
+
+- c6e53a8: Fix listInstallations types
+
 ## 0.9.2
 
 ### Patch Changes
