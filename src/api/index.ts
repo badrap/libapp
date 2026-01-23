@@ -15,9 +15,11 @@ export class UpdateFailed extends Error {
 
 export type Installation<State extends Record<string, unknown>> = {
   id: string;
-  removed: boolean;
   state: State;
   owner?: { type: "team"; name: string } | { type: "user"; email: string };
+  status: "active" | "paused" | "uninstalled";
+  /** @deprecated Use status instead. */
+  removed: boolean;
 };
 
 export type Asset = Readonly<{
@@ -127,6 +129,11 @@ export class API<
       responseType: v.object({
         id: v.string(),
         removed: v.boolean(),
+        status: v.union(
+          v.literal("active"),
+          v.literal("paused"),
+          v.literal("uninstalled"),
+        ),
         state: this.#stateType,
         owner: v
           .union(
@@ -158,6 +165,11 @@ export class API<
         responseType: v.object({
           id: v.string(),
           removed: v.boolean(),
+          status: v.union(
+            v.literal("active"),
+            v.literal("paused"),
+            v.literal("uninstalled"),
+          ),
           state: this.#stateType,
           owner: v
             .union(
