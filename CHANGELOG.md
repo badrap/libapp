@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.10.0
+
+### Minor Changes
+
+- 7864510: Remove `removed` flag from installation objects. Use the `status` property instead.
+
 ## 0.9.3
 
 ### Patch Changes
