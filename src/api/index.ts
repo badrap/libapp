@@ -18,8 +18,6 @@ export type Installation<State extends Record<string, unknown>> = {
   state: State;
   owner?: { type: "team"; name: string } | { type: "user"; email: string };
   status: "active" | "paused" | "uninstalled";
-  /** @deprecated Use status instead. */
-  removed: boolean;
 };
 
 export type Asset = Readonly<{
@@ -81,8 +79,6 @@ export class API<
     id: string;
     owner?: { type: "team"; name: string } | { type: "user"; email: string };
     status: "active" | "paused" | "uninstalled";
-    /** @deprecated Use status instead. */
-    removed: boolean;
   }> {
     yield* await this.#client.request({
       method: "GET",
@@ -101,7 +97,6 @@ export class API<
             v.literal("paused"),
             v.literal("uninstalled"),
           ),
-          removed: v.boolean(),
         }),
       ),
     });
@@ -147,7 +142,6 @@ export class API<
           v.literal("paused"),
           v.literal("uninstalled"),
         ),
-        removed: v.boolean(),
       }),
     });
   }
@@ -183,7 +177,6 @@ export class API<
             v.literal("paused"),
             v.literal("uninstalled"),
           ),
-          removed: v.boolean(),
         }),
       });
 
