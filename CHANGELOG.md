@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.10.1
+
+### Patch Changes
+
+- b7fe53c: Add size, readOnly, minLength and maxLength props to TextField
+- 5cbc516: Add (client-side) filtering by status to API#listInstallations
+
 ## 0.10.0
 
 ### Minor Changes
