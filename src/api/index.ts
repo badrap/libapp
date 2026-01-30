@@ -90,15 +90,15 @@ export class API<
     };
   }
 
-  async *listInstallations({
-    status,
-  }: {
+  async *listInstallations(options?: {
     status?: InstallationStatus | InstallationStatus[];
   }): AsyncIterable<{
     id: string;
     owner?: { type: "team"; name: string } | { type: "user"; email: string };
     status: InstallationStatus;
   }> {
+    const { status } = options ?? {};
+
     const list = await this.#client.request({
       method: "GET",
       path: ["installations"],
