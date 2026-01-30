@@ -13,11 +13,26 @@ export class UpdateFailed extends Error {
   }
 }
 
+type InstallationStatus = "active" | "paused" | "uninstalled";
+const InstallationStatus: v.Type<InstallationStatus> = v.union(
+  v.literal("active"),
+  v.literal("paused"),
+  v.literal("uninstalled"),
+);
+
+type InstallationOwner =
+  | { type: "team"; name: string }
+  | { type: "user"; email: string };
+const InstallationOwner: v.Type<InstallationOwner> = v.union(
+  v.object({ type: v.literal("team"), name: v.string() }),
+  v.object({ type: v.literal("user"), email: v.string() }),
+);
+
 export type Installation<State extends Record<string, unknown>> = {
   id: string;
   state: State;
-  owner?: { type: "team"; name: string } | { type: "user"; email: string };
-  status: "active" | "paused" | "uninstalled";
+  owner?: InstallationOwner;
+  status: InstallationStatus;
 };
 
 export type Asset = Readonly<{
@@ -75,31 +90,39 @@ export class API<
     };
   }
 
-  async *listInstallations(): AsyncIterable<{
+  async *listInstallations({
+    status,
+  }: {
+    status?: InstallationStatus | InstallationStatus[];
+  }): AsyncIterable<{
     id: string;
     owner?: { type: "team"; name: string } | { type: "user"; email: string };
-    status: "active" | "paused" | "uninstalled";
+    status: InstallationStatus;
   }> {
-    yield* await this.#client.request({
+    const list = await this.#client.request({
       method: "GET",
       path: ["installations"],
       responseType: v.array(
         v.object({
           id: v.string(),
-          owner: v
-            .union(
-              v.object({ type: v.literal("team"), name: v.string() }),
-              v.object({ type: v.literal("user"), email: v.string() }),
-            )
-            .optional(),
-          status: v.union(
-            v.literal("active"),
-            v.literal("paused"),
-            v.literal("uninstalled"),
-          ),
+          owner: InstallationOwner.optional(),
+          status: InstallationStatus,
         }),
       ),
     });
+
+    const statusSet =
+      status === undefined
+        ? undefined
+        : typeof status === "string"
+          ? new Set([status])
+          : new Set(status);
+
+    for (const installation of list) {
+      if (!statusSet || statusSet.has(installation.status)) {
+        yield installation;
+      }
+    }
   }
 
   async createInstallationCallback(
@@ -131,17 +154,8 @@ export class API<
       responseType: v.object({
         id: v.string(),
         state: this.#stateType,
-        owner: v
-          .union(
-            v.object({ type: v.literal("team"), name: v.string() }),
-            v.object({ type: v.literal("user"), email: v.string() }),
-          )
-          .optional(),
-        status: v.union(
-          v.literal("active"),
-          v.literal("paused"),
-          v.literal("uninstalled"),
-        ),
+        owner: InstallationOwner.optional(),
+        status: InstallationStatus,
       }),
     });
   }
@@ -166,17 +180,8 @@ export class API<
         responseType: v.object({
           id: v.string(),
           state: this.#stateType,
-          owner: v
-            .union(
-              v.object({ type: v.literal("team"), name: v.string() }),
-              v.object({ type: v.literal("user"), email: v.string() }),
-            )
-            .optional(),
-          status: v.union(
-            v.literal("active"),
-            v.literal("paused"),
-            v.literal("uninstalled"),
-          ),
+          owner: InstallationOwner.optional(),
+          status: InstallationStatus,
         }),
       });
 
