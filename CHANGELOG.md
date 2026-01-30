@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.10.2
+
+### Patch Changes
+
+- eb65e4d: Make API#listInstallation options argument optional
+
 ## 0.10.1
 
 ### Patch Changes
