@@ -21,5 +21,6 @@ export { RelativeTime } from "./RelativeTime.ts";
 export { Select } from "./Select.ts";
 export { Switch } from "./Switch.ts";
 export { Text } from "./Text.ts";
+export { TextBlock } from "./TextBlock.ts";
 export { TextField } from "./TextField.ts";
 export { UploadButton } from "./UploadButton.ts";
