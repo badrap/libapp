@@ -1,5 +1,12 @@
 # @badrap/libapp
 
+## 0.10.3
+
+### Patch Changes
+
+- 11571ea: Switch from ESLint + Prettier to oxlint + oxfmt
+- 09e231d: Add TextBlock component
+
 ## 0.10.2
 
 ### Patch Changes
