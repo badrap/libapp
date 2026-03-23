@@ -1,19 +1,18 @@
 {
   "name": "@badrap/libapp",
-  "type": "module",
   "version": "0.10.2",
   "description": "TypeScript helpers for creating Badrap apps",
+  "homepage": "https://github.com/badrap/libapp#readme",
+  "bugs": {
+    "url": "https://github.com/badrap/libapp/issues"
+  },
+  "license": "MIT",
+  "author": "Joachim Viide <jviide@iki.fi>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/badrap/libapp.git"
   },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "engines": {
-    "node": ">=20"
-  },
+  "type": "module",
   "main": "dist/index.js",
   "exports": {
     "./api": "./dist/api/index.js",
@@ -22,35 +21,30 @@
     "./jsx-runtime": "./dist/jsx-runtime.js",
     "./jsx-dev-runtime": "./dist/jsx-dev-runtime.js"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
-    "fix": "node --run fix:prettier && node --run fix:eslint",
-    "fix:prettier": "prettier --write --cache .",
-    "fix:eslint": "eslint --max-warnings=0 --fix --cache --cache-location=.cache/eslint .",
-    "lint": "node --run lint:prettier && node --run lint:eslint",
-    "lint:prettier": "prettier --check --cache .",
-    "lint:eslint": "eslint --max-warnings=0 --cache --cache-location=.cache/eslint .",
-    "typecheck": "tsc --noEmit",
+    "fix": "oxfmt && oxlint --fix",
+    "check": "oxfmt --check && oxlint",
     "build": "rm -rf dist/* && tsc",
     "changeset": "changeset",
     "bump": "changeset version",
     "tag": "changeset tag"
   },
-  "author": "Joachim Viide <jviide@iki.fi>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/badrap/libapp/issues"
+  "dependencies": {
+    "@badrap/valita": "^0.4.6"
   },
-  "homepage": "https://github.com/badrap/libapp#readme",
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
-    "@eslint/js": "^9.39.2",
-    "eslint": "^9.39.2",
-    "prettier": "^3.8.1",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1"
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.1",
+    "typescript": "^5.9.3"
   },
-  "dependencies": {
-    "@badrap/valita": "^0.4.6"
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -25,8 +25,7 @@ jobs:
           # Allow caching, as this job can't write and doesn't produce any artifacts.
           cache: npm
       - run: npm ci
-      - run: npm run lint
-      - run: npm run typecheck
+      - run: npm run check
 
   changesets:
     needs: check
