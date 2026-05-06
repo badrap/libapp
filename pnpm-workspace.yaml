@@ -5,7 +5,7 @@ updateNotifier: false
 minimumReleaseAge: 2880
 # Ignore minimumReleaseAge for these explicitly listed packages.
 # Try to keep this list temporary, aim for an empty list of exclusions.
-minimumReleaseAgeExclude: []
+minimumReleaseAgeExclude: ["@badrap/valita@0.5.1"]
 
 # Don't allow package trust levels has decreased compared to previous releases.
 trustPolicy: no-downgrade
