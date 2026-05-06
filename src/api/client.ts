@@ -1,4 +1,5 @@
 import * as v from "@badrap/valita";
+import { fetch, Headers } from "undici";
 
 const json = JSON.stringify;
 
@@ -69,14 +70,6 @@ function joinPath(path: string[]): string {
     .join("/");
 }
 
-async function dump(stream: ReadableStream | null) {
-  if (stream) {
-    for await (const _ of stream) {
-      // pass
-    }
-  }
-}
-
 export interface ClientConfig {
   url: string;
   token: string;
@@ -123,40 +116,47 @@ export class Client {
       headers,
       body,
     });
-    const contentType = response.headers.get("content-type");
-    const isJSON = /^application\/json\s*(;|$)/.test(contentType ?? "");
+    try {
+      const contentType = response.headers.get("content-type");
+      const isJSON = /^application\/json\s*(;|$)/.test(contentType ?? "");
 
-    if (response.status >= 400 && response.status < 600) {
-      if (isJSON) {
-        const rawBody: unknown = await response.json();
+      if (response.status >= 400 && response.status < 600) {
+        if (isJSON) {
+          const rawBody: unknown = await response.json();
 
-        const body = APIErrorBody.try(rawBody, { mode: "strip" });
-        if (body.ok) {
-          throw new APIError(
-            response.status,
-            response.statusText,
-            body.value.error.code,
-            body.value.error.reason,
-          );
+          const body = APIErrorBody.try(rawBody, { mode: "strip" });
+          if (body.ok) {
+            throw new APIError(
+              response.status,
+              response.statusText,
+              body.value.error.code,
+              body.value.error.reason,
+            );
+          }
         }
-      } else {
-        await dump(response.body);
+        throw new HTTPError(response.status, response.statusText);
       }
-      throw new HTTPError(response.status, response.statusText);
-    }
 
-    let json: unknown = undefined;
-    if (isJSON) {
-      json = await response.json();
-    } else {
-      await dump(response.body);
-    }
+      let json: unknown = undefined;
+      if (isJSON) {
+        json = await response.json();
+      }
 
-    const etag = response.headers.get("etag") ?? undefined;
-    if (!options.responseType) {
-      return { body: json as v.Infer<T>, etag };
+      const etag = response.headers.get("etag") ?? undefined;
+      if (!options.responseType) {
+        return { body: json as v.Infer<T>, etag };
+      }
+      return {
+        body: options.responseType.parse(json, { mode: "strip" }),
+        etag,
+      };
+    } finally {
+      if (!response.bodyUsed && response.body) {
+        for await (const _ of response.body) {
+          // Dump the response data.
+        }
+      }
     }
-    return { body: options.responseType.parse(json, { mode: "strip" }), etag };
   }
 
   async request<T extends v.Type>(
