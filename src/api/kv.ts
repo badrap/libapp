@@ -1,7 +1,7 @@
 import * as v from "@badrap/valita";
 import { type Client, HTTPError } from "./client.ts";
 
-export type KvKey = (number | string | boolean)[];
+export type KvKey = Array<number | string | boolean>;
 
 export type KvEntry<T> = { key: KvKey; value: T; versionstamp: string };
 
