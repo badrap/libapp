@@ -219,7 +219,7 @@ export class API<
           if (attempt >= maxRetries) {
             throw new UpdateFailed(err);
           }
-          const backoff = Math.max(backoffStep * 2 ** attempt, maxBackoff);
+          const backoff = Math.min(backoffStep * 2 ** attempt, maxBackoff);
           await sleep(backoff * (1 + Math.random() * jitterFactor));
           continue;
         }
