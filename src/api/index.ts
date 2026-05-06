@@ -5,9 +5,17 @@ import type * as KvTypes from "./kv.ts";
 
 export { HTTPError, APIError };
 
+function sleep(delay: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
+}
+
 export class UpdateFailed extends Error {
-  constructor() {
-    super("installation update failed");
+  constructor(cause: APIError) {
+    super("installation update failed", { cause });
 
     this.name = "UpdateFailed";
   }
@@ -168,12 +176,17 @@ export class API<
       { assets?: Asset[]; state?: InstallationState } | undefined
     >,
     options?: {
-      maxRetries?: number;
+      retry?: false | number;
     },
   ): Promise<Installation<InstallationState>> {
-    const { maxRetries = Infinity } = options ?? {};
+    const { retry = 10 } = options ?? {};
 
-    for (let i = 0; i <= maxRetries; i++) {
+    const maxRetries = retry === false ? 0 : retry;
+    const jitterFactor = 0.1;
+    const backoffStep = 100;
+    const maxBackoff = 1000;
+
+    for (let attempt = 0; ; attempt++) {
       const { body, etag } = await this.#client.requestWithEtag({
         method: "GET",
         path: ["installations", installationId],
@@ -202,15 +215,18 @@ export class API<
           json: patch,
         });
       } catch (err) {
-        if (err instanceof HTTPError && err.statusCode === 412) {
+        if (err instanceof APIError && err.statusCode === 412) {
+          if (attempt >= maxRetries) {
+            throw new UpdateFailed(err);
+          }
+          const backoff = Math.max(backoffStep * 2 ** attempt, maxBackoff);
+          await sleep(backoff * (1 + Math.random() * jitterFactor));
           continue;
         }
         throw err;
       }
       return { ...body, ...patch };
     }
-
-    throw new UpdateFailed();
   }
 
   async removeInstallation(installationId: string): Promise<void> {
