@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "node20",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "types": ["node"],
     "libReplacement": false,
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
+
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
@@ -17,7 +15,14 @@
     "isolatedDeclarations": true,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "stableTypeOrdering": true,
+
+    "declaration": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "stripInternal": true
   },
   "include": ["./src/**/*"]
 }
