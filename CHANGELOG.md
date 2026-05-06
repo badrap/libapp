@@ -1,5 +1,11 @@
 # @badrap/libapp
 
+## 0.11.1
+
+### Patch Changes
+
+- cf8278c: Switch from Math.max to Math.min on retry backoff calculation
+
 ## 0.11.0
 
 ### Minor Changes
