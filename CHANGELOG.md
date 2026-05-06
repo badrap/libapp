@@ -1,5 +1,16 @@
 # @badrap/libapp
 
+## 0.11.0
+
+### Minor Changes
+
+- 610e73e: **BREAKING:** Bump Node.js requirement to v22
+- 0f55665: **BREAKING:** Set `updateInstallation` retry limit to 10 by default
+
+### Patch Changes
+
+- a510d8b: Use `undici` for HTTPS requests
+
 ## 0.10.3
 
 ### Patch Changes
